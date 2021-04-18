@@ -1,11 +1,23 @@
 Package: MNAI.CPBT
 Type: Package
 Title: Municipal Natural Assets Initiative - Coastal Protection Benefit Toolbox
-Version: 0.0.1
+Version: 0.1.0
 Author: Matthew Bayly
 Maintainer: Matthew Bayly <mbayly@essa.com>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Description: Contains functions to model coastal wave attenuation, shoreline erosion and flooding. This package is an adaptation of the Natural Capital InVEST Wave Attenuation and Erosion Reduction ArcGIS Toolbox originally developed by Greg Guannel. Functions and workflows have been modified for evaluating municipal natural assets along coastlines in Canada.
+License: MIT + file LICENSE
+URL: https://github.com/mattjbayly/MNAI.CPBT
+BugReports: https://github.com/mattjbayly/MNAI.CPBT/issues
+Depends:
+  R (>= 4.0)
+Imports:
+  sp (>= 1.4-5),
+  sf (>= 0.9-8),
+  raster (>= 3.4-5)
 Encoding: UTF-8
-LazyData: true
+Language: en-US
+LazyData: false
+RoxygenNote: 7.1.1
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
