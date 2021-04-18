@@ -1,8 +1,8 @@
 # Tests the windWave function
 testthat::test_that("submergedStructure() returns correct values and format", {
-  wwdat <- windWave(WindSpeed = 20, FetchDistance = 5000, WaterDepth = 50)
+  wwdat <- windWave(wind_speed = 20, fetch_distance = 5000, water_depth = 50)
   expect_type(wwdat, "double")
-  expect_equal(names(wwdat), c("Height","Period"))
+  expect_equal(names(wwdat), c("Height", "Period"))
 })
 
 # Tests the submergedStructure function
@@ -20,13 +20,13 @@ testthat::test_that("submergedStructure() returns correct values", {
 
 # Math Wrappers
 testthat::test_that("Math wrappers for log and trig", {
-  expect_equal(round(math.sqrt(25), 3),5)
-  expect_equal(round(math.tanh(3), 3),0.995)
-  expect_equal(round(math.sinh(3), 3),10.018)
-  expect_equal(round(math.sin(3), 3),0.141)
-  expect_equal(round(math.cosh(3), 3),10.068)
-  expect_equal(math.floor(8.89),8)
-  expect_equal(len(c(1,2,3)), 3)
+  expect_equal(round(math.sqrt(25), 3), 5)
+  expect_equal(round(math.tanh(3), 3), 0.995)
+  expect_equal(round(math.sinh(3), 3), 10.018)
+  expect_equal(round(math.sin(3), 3), 0.141)
+  expect_equal(round(math.cosh(3), 3), 10.068)
+  expect_equal(math.floor(8.89), 8)
+  expect_equal(len(c(1, 2, 3)), 3)
   expect_equal(log.info("test"), "test")
   expect_equal(log.debug("test"), "test")
   expect_equal(log.warning("test"), "test")

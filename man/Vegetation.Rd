@@ -23,12 +23,12 @@ polygons were prepared for demonstration purposes only and do not reflect
 actual eelgrass distributions.
 }
 \examples{
+\donttest{
+require(sf)
 data(Vegetation)
 head(Vegetation)
-\donttest{
 # Plot the eelgrass patch height
 plot(Vegetation["hc"])
-
 }
 }
 \references{

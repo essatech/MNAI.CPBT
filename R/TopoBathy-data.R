@@ -22,8 +22,9 @@
 #' @source \href{https://www.open.canada.ca/en}{CHS Bathymetry Data Download}
 #'
 #' @examples
-#' data(TopoBathy)
 #' \donttest{
+#' require(raster)
+#' data(TopoBathy)
 #' raster::plot(TopoBathy)
 #' }
 "TopoBathy"

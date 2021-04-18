@@ -18,9 +18,10 @@ too complex with sharp curves, points, peninsulas and bays, cross-shore
 profiles will point in undesirable directions.
 }
 \examples{
+\donttest{
+require(sf)
 data(Coastline)
 head(Coastline)
-\donttest{
 # Plot the coastline
 plot(sf::st_geometry(Coastline))
 }

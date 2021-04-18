@@ -29,7 +29,7 @@ submergedStructure <- function(Hi = 2.5,
                          hc = 3,
                          Cwidth = 5,
                          Bwidth = 10
-                         ){
+                         ) {
 
   # Could be modified in the future.
   OysterReefType <- "Trapezoidal"
@@ -41,7 +41,7 @@ submergedStructure <- function(Hi = 2.5,
   ksi <- (hc / Boff) / math.sqrt(Hi / Lo)
 
   # The reef is too submerged
-  if(hc / hi < 0.5){
+  if (hc / hi < 0.5) {
     Kt <- 1
     print("Your reef is too small and we cannot compute the wave transmission
           coefficient. Please increase your reef height so it's closer to the
@@ -49,7 +49,7 @@ submergedStructure <- function(Hi = 2.5,
     return(Kt)
   }
 
-  if(hc / hi > 1.25){
+  if (hc / hi > 1.25) {
     Kt <- 1
     print("Your reef is too high above the water level and we cannot compute
           the wave transmission coefficient. Please assume that no waves pass
@@ -57,7 +57,7 @@ submergedStructure <- function(Hi = 2.5,
     return(0)
   }
 
-  if(abs(Rc / Hi) > 5){
+  if (abs(Rc / Hi) > 5) {
     Kt <- 1
     print("Your reef is too small and outside the range of validity of our
           model. Please increase your reef height so it's closer to the
@@ -67,7 +67,7 @@ submergedStructure <- function(Hi = 2.5,
 
 
 
-  if(OysterReefType == "Trapezoidal"){
+  if (OysterReefType == "Trapezoidal") {
     # it's not a reef ball
     # van der Meer (2005)
 
@@ -81,11 +81,11 @@ submergedStructure <- function(Hi = 2.5,
     Kt2 <- max(Kt2, 0.05)
     Kt2 <- min(Kt2, -0.006 * Cwidth / Hi + 0.93)
 
-    if(Cwidth / Hi < 8.0){
+    if (Cwidth / Hi < 8.0) {
       # d'Angremond
       Kt <- Kt1
     } else {
-      if(Cwidth / Hi > 12.0){
+      if (Cwidth / Hi > 12.0) {
         # van der Meer
         Kt <- Kt2
       } else {

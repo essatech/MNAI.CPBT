@@ -4,14 +4,14 @@
 \alias{windWave}
 \title{windWave}
 \usage{
-windWave(WindSpeed = 20, FetchDistance = 5000, WaterDepth = 100)
+windWave(wind_speed = 20, fetch_distance = 5000, water_depth = 100)
 }
 \arguments{
-\item{WindSpeed}{Wind speed in units of meters per second.}
+\item{wind_speed}{Wind speed in units of meters per second.}
 
-\item{FetchDistance}{Fetch distance in units of meters.}
+\item{fetch_distance}{Fetch distance in units of meters.}
 
-\item{WaterDepth}{Average offshore water depth in units of meters.}
+\item{water_depth}{Average offshore water depth in units of meters.}
 }
 \value{
 An estimate of the offshore wave height (meters) and wave period
@@ -22,7 +22,7 @@ Estimates the wave height and period for a given wind speed,
 fetch distance and water depth.
 }
 \examples{
-waveHeightPeriod <- windWave(WindSpeed = 20, FetchDistance = 5000,
-WaterDepth = 50)
+waveHeightPeriod <- windWave(wind_speed = 20, fetch_distance = 5000,
+water_depth = 50)
 print(waveHeightPeriod)
 }

@@ -19,9 +19,10 @@
 #' @keywords datasets
 #'
 #' @examples
+#' \donttest{
+#' require(sf)
 #' data(Bldgs)
 #' head(Bldgs)
-#' \donttest{
 #' # Structure Values
 #' plot(Bldgs["VAL"], main="Structure Values ($)")
 #'

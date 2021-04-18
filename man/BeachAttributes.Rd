@@ -23,9 +23,10 @@ Note that this dataset has been reduced and simplified from
 the original version and should only be used for demonstration purposes.
 }
 \examples{
+\donttest{
+require(sf)
 data(BeachAttributes)
 head(BeachAttributes)
-\donttest{
 # Dune Height
 plot(BeachAttributes["D"], main="Dune Height in meters")
 }

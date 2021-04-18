@@ -15,9 +15,10 @@
 #' @keywords datasets
 #'
 #' @examples
+#' \donttest{
+#' require(sf)
 #' data(Coastline)
 #' head(Coastline)
-#' \donttest{
 #' # Plot the coastline
 #' plot(sf::st_geometry(Coastline))
 #' }

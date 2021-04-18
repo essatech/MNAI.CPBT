@@ -3,23 +3,24 @@
 #' @description Estimates the wave height and period for a given wind speed,
 #' fetch distance and water depth.
 #'
-#' @param WindSpeed Wind speed in units of meters per second.
-#' @param FetchDistance Fetch distance in units of meters.
-#' @param WaterDepth Average offshore water depth in units of meters.
+#' @param wind_speed Wind speed in units of meters per second.
+#' @param fetch_distance Fetch distance in units of meters.
+#' @param water_depth Average offshore water depth in units of meters.
 #'
 #' @return An estimate of the offshore wave height (meters) and wave period
 #' (seconds).
 #' @examples
-#' waveHeightPeriod <- windWave(WindSpeed = 20, FetchDistance = 5000,
-#' WaterDepth = 50)
+#' waveHeightPeriod <- windWave(wind_speed = 20, fetch_distance = 5000,
+#' water_depth = 50)
 #' print(waveHeightPeriod)
 #' @export
 
-windWave <- function(WindSpeed = 20, FetchDistance = 5000, WaterDepth = 100){
+windWave <- function(wind_speed = 20,
+                     fetch_distance = 5000, water_depth = 100) {
 
-  Us <- WindSpeed
-  Ft <- FetchDistance
-  depth <- WaterDepth
+  Us <- wind_speed
+  Ft <- fetch_distance
+  depth <- water_depth
   U <- Us
   Ft <- Ft
 
@@ -40,8 +41,7 @@ windWave <- function(WindSpeed = 20, FetchDistance = 5000, WaterDepth = 100){
   Ho <- H
   To <- 7.69 * U / g * (A * B) ** 0.18  # wave period
 
-  out <- c(round(Ho,3),
-           round(To,2))
+  out <- c(round(Ho, 3), round(To, 2))
   names(out) <- c("Height", "Period")
 
   return(out)

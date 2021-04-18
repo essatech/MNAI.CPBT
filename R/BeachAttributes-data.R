@@ -20,9 +20,10 @@
 #' @keywords datasets
 #'
 #' @examples
+#' \donttest{
+#' require(sf)
 #' data(BeachAttributes)
 #' head(BeachAttributes)
-#' \donttest{
 #' # Dune Height
 #' plot(BeachAttributes["D"], main="Dune Height in meters")
 #' }

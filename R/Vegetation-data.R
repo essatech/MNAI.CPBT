@@ -25,11 +25,11 @@
 #' (\href{doi/10.1002/2014JC009821}{Article DOI})
 #'
 #' @examples
+#' \donttest{
+#' require(sf)
 #' data(Vegetation)
 #' head(Vegetation)
-#' \donttest{
 #' # Plot the eelgrass patch height
 #' plot(Vegetation["hc"])
-#'
 #' }
 "Vegetation"

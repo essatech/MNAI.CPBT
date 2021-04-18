@@ -8,7 +8,7 @@
 An object of class \code{"RasterLayer"};.
 }
 \source{
-\href{https://open.canada.ca/en}{CHS Bathymetry Data Download}
+\href{https://www.open.canada.ca/en}{CHS Bathymetry Data Download}
 }
 \usage{
 data(TopoBathy)
@@ -23,14 +23,14 @@ See the source link below to download relevant data for your region of
 interest.
 }
 \examples{
-data(TopoBathy)
 \donttest{
+require(raster)
+data(TopoBathy)
 raster::plot(TopoBathy)
 }
 }
 \references{
 DFO - Canadian Hydrographic Service Non-Navigational (NONNA)
 Bathymetric Data
-(\href{https://open.canada.ca/en}{Canadian Bathymetry Data})
 }
 \keyword{datasets}

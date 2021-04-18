@@ -22,9 +22,10 @@ curves (see \link{HAZUS}). Note that this dataset contains sample
 values and should be used for demonstration purposes only..
 }
 \examples{
+\donttest{
+require(sf)
 data(Bldgs)
 head(Bldgs)
-\donttest{
 # Structure Values
 plot(Bldgs["VAL"], main="Structure Values ($)")
 
