@@ -14,7 +14,6 @@
 #' along the coastline.
 #' @examples
 #' \dontrun{
-#' require(sf)
 #' data(Coastline)
 #' shoreline_points <- samplePoints(
 #'   Coastline = Coastline,

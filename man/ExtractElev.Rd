@@ -4,12 +4,10 @@
 \alias{ExtractElev}
 \title{ExtractElev}
 \usage{
-ExtractElev(cross_shore_profiles = NA, sample_resolution = 1, TopoBathy = NA)
+ExtractElev(cross_shore_profiles = NA, TopoBathy = NA)
 }
 \arguments{
 \item{cross_shore_profiles}{Cross-shore profile lines from samplePoints.}
-
-\item{sample_resolution}{Horizontal point sampling resolution (meters).}
 
 \item{TopoBathy}{TopoBathy digital elevation model of class RasterLayer.}
 }
@@ -22,9 +20,7 @@ Extract elevation values along cross-shore profiles lines.
 }
 \examples{
 \dontrun{
-require(sf)
-require(sp)
-require(raster)
+library(MNAI.CPBT)
 data(Coastline)
 shoreline_points <- samplePoints(
   Coastline = Coastline,
@@ -39,7 +35,8 @@ cross_shore_profiles <- shoreline_points[[2]]
 plot(sf::st_geometry(cross_shore_profiles), add=TRUE)
 
 # Extract elevation along each profile
-data(TopoBathy)
+rpath <-  system.file("extdata", "TopoBathy.tif", package = "MNAI.CPBT")
+TopoBathy <- raster::raster(rpath)
 pt_elevs <- ExtractElev(cross_shore_profiles, 1, TopoBathy)
 plot(pt_elevs['elev'])
 # plot(TopoBathy)

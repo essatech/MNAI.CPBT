@@ -3,16 +3,14 @@
 #' @description Extract elevation values along cross-shore profiles lines.
 #'
 #' @param cross_shore_profiles Cross-shore profile lines from samplePoints.
-#' @param sample_resolution Horizontal point sampling resolution (meters).
 #' @param TopoBathy TopoBathy digital elevation model of class RasterLayer.
 #'
 #' @return Spatial points of class sf with extracted elevation values along
 #' each cross-shore profile.
+#'
 #' @examples
 #' \dontrun{
-#' require(sf)
-#' require(sp)
-#' require(raster)
+#' library(MNAI.CPBT)
 #' data(Coastline)
 #' shoreline_points <- samplePoints(
 #'   Coastline = Coastline,
@@ -27,7 +25,8 @@
 #' plot(sf::st_geometry(cross_shore_profiles), add=TRUE)
 #'
 #' # Extract elevation along each profile
-#' data(TopoBathy)
+#' rpath <-  system.file("extdata", "TopoBathy.tif", package = "MNAI.CPBT")
+#' TopoBathy <- raster::raster(rpath)
 #' pt_elevs <- ExtractElev(cross_shore_profiles, 1, TopoBathy)
 #' plot(pt_elevs['elev'])
 #' # plot(TopoBathy)
@@ -35,14 +34,14 @@
 #' @export
 ExtractElev <- function(
   cross_shore_profiles = NA,
-  sample_resolution = 1,
   TopoBathy = NA
 ) {
 
   # Rename to match
   perp_lines <- cross_shore_profiles
-  PointResolution <- sample_resolution
   r <- TopoBathy
+  sample_resolution <- 1
+  PointResolution <- sample_resolution
 
   # to extract
   perp_lines_sp <- sf::as_Spatial(perp_lines)

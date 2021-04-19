@@ -31,3 +31,16 @@ testthat::test_that("Math wrappers for log and trig", {
   expect_equal(log.debug("test"), "test")
   expect_equal(log.warning("test"), "test")
 })
+
+
+# iterativek type
+testthat::test_that("iterativek", {
+  wn <- iterativek(2000, 50)
+  expect_type(wn, "double")
+  wn2 <- round(wn, 1)
+  expect_equal(wn2, 407747.2)
+  wn <- iterativek(0.03, 50)
+  wn2 <- round(wn, 4)
+  expect_equal(wn2, 0.0014)
+})
+

@@ -29,7 +29,7 @@ windWave <- function(wind_speed = 20,
   # and local depth (d) using empirical equations
 
   g <- 9.81
-  rho <- 1024
+  # rho <- 1024
   ds <- (g * depth) / U**2.0
   Fs <- (g * Ft) / U**2.0
   A <- math.tanh(0.343 * ds ** 1.14)

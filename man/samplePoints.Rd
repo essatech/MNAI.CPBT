@@ -32,7 +32,6 @@ Sample points along the coastline at specified intervals.
 }
 \examples{
 \dontrun{
-require(sf)
 data(Coastline)
 shoreline_points <- samplePoints(
   Coastline = Coastline,

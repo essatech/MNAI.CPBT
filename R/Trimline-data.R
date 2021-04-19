@@ -1,0 +1,26 @@
+#' Trimline
+#'
+#' The back shore trim line is optionally included to restrict the on-shore
+#' extent of the cross-shore profiles. The trim line runs parallel to the
+#' coastline but is drawn further upslope on the land away from the water. A
+#' back shore trim line may be required in cases where cross-shore profiles
+#' are generated along the coastline of a narrow peninsula or in instances
+#' where there is a back shore lagoon. A back shore trimline should be
+#' provided as a simple features line object.
+#'
+#' @docType data
+#'
+#' @usage data(Trimline)
+#'
+#' @format A simple feature LINESTRING of class sf and data.frame.
+#'
+#' @keywords datasets
+#'
+#' @examples
+#' \donttest{
+#' require(sf)
+#' data(Trimline)
+#' # Plot the trimline
+#' plot(sf::st_geometry(Trimline))
+#' }
+"Trimline"
