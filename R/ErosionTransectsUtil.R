@@ -4,15 +4,6 @@
 #' for the Coastal Natural Capital InVEST project. This function estimates
 #' beach retreat and wave runup based on foreshore attributes.
 #'
-#' @param dat A sf and dataframe of cross-profiles returned from ExtractVeg.
-#' @param total_wsl_adj Total water surface level above the chart datum. Recall
-#' that the chart datum and TopoBathy DEM are referenced to have 0 at low
-#' water. It is therefore suggested to set this value at the mean sea level
-#' above chart datum or a specific tidal elevation of interest.
-#' @param Ho Initial offshore wave height in meters.
-#' @param To Initial offshore wave period in second.
-#' @param tran_force TRUE/FALSE should transect be forced even if there are
-#' error codes.
 #' @param Ho Initial offshore wave height in meters.
 #' @param To Initial offshore wave period in seconds.
 #' @param total_wsl_adj Total water surface level above the chart datum. Recall

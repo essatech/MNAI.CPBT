@@ -27,7 +27,10 @@ Imports:
     rootSolve,
     graphics,
     stats,
-    utils
+    utils,
+    dplyr,
+    gstat,
+    methods
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3

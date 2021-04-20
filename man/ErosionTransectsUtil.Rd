@@ -35,7 +35,8 @@ water. It is recommended that the erosion model is run with mean sea level.}
 
 \item{storm_duration}{Storm duration in hours.}
 
-\item{Longshore}{Longshore distance in meters (not used if fs_dat is provided).}
+\item{Longshore}{Longshore distance in meters should match
+ShorelinePointDist used in samplePoints.}
 
 \item{PropValue}{Property value in dollars per square meter of beach.
 (not used if fs_dat is provided).}
@@ -50,14 +51,26 @@ water. It is recommended that the erosion model is run with mean sea level.}
 
 \item{mean_high_water}{Mean high water level elevation in meters above
 chart datum.}
-
-\item{dat}{A sf and dataframe of cross-profiles returned from ExtractVeg.}
-
-\item{tran_force}{TRUE/FALSE should transect be forced even if there are
-error codes.}
 }
 \value{
-....
+A data frame with erosion estimates for each cross-shore profile.
+_NoVeg is estimated without submerged vegetation and _Veg is an estimate with
+submerged vegetation
+#' \describe{
+  \item{retreat_}{Lateral beach retreat distance in meters from the storm.
+  (single storm event)}
+  \item{runup_}{Vertical wave runup elevation at a profile.}
+  \item{damage_}{Total erosion damage at a cross-shore profile section from
+  beach loss due to retreat and storm return period over the time horizon.}
+  \item{transect_id}{Cross-shore profile transect ID (to link back to
+  previous data sets.}
+  \item{area_loss_}{Beach loss area m2 from the storm (single storm event)
+  .}
+  \item{vol_loss_}{Beach loss volume m3 from the storm (single storm event).}
+  \item{retreat_pct_}{Beach retreat percentage (lateral retreat distance
+  divided by berm width).}
+  \item{retreat_index_}{Beach retreat index score 1-5.}
+}
 }
 \description{
 Beach erosion model originally developed by Dr. Greg Guannel
@@ -70,16 +83,72 @@ Guannel for the Coastal Natural Capital InVEST project. This function
 estimates lateral beach erosion and wave runup for each cross-shore profile.
 Foreshore parameters for berm width, height etc. are provided as spatial
 polygons for each beach section. These are then linked to underlying
-cross-shore profiles for erosion estimates..
+cross-shore profiles for erosion estimates. The return object is a data frame
+showing erosion estimates for each cross-shore profile.
 }
 \examples{
 \dontrun{
 library(MNAI.CPBT)
 data(Coastline)
+# Generate cross-shore profile lines along the coastline.
+crossshore_profiles <- samplePoints(
+  Coastline = Coastline,
+  ShorelinePointDist = 150,
+  BufferDist = 50,
+  RadLineDist = 1.5
+)
+crossshore_lines <- crossshore_profiles[[2]]
 
+# Extract elevation values along each profile
+rpath <-  system.file("extdata", "TopoBathy.tif", package = "MNAI.CPBT")
+TopoBathy <- raster::raster(rpath)
+pt_elevs <- ExtractElev(crossshore_lines, TopoBathy)
 
-fs_dat <- plink1
-wave_dat <- wave_data
+# Run SignalSmooth function to smooth elevation profiles
+pt_elevs <- SignalSmooth(point_elev = pt_elevs,
+SmoothParameter = 5)
+
+# Clean the cross-shore profiles with CleanTransect
+data(Trimline)
+cleantransect <- CleanTransect(
+  point_elev = pt_elevs,
+  RadLineDist = 1.5,
+  MaxOnshoreDist = 0.01,
+  trimline = Trimline
+)
+
+# Merge vegetation onto lines
+data(Vegetation)
+dat_veg <- ExtractVeg(pt_exp = cleantransect, Vegetation = Vegetation)
+
+# Run the wave evolution model
+wave_data <- WaveModel(dat = dat_veg,
+  total_wsl_adj = 0.5,
+  Ho = 2,
+  To = 8
+)
+
+data(BeachAttributes)
+linkbeach <- LinkProfilesToBeaches(BeachAttributes = BeachAttributes,
+dat = wave_data)
+
+erosion <- ErosionTransectsUtil(
+    Ho = 2,
+    To = 8,
+    total_wsl_adj = 0.5,
+    fs_dat = linkbeach,
+    wave_dat = wave_data,
+    storm_duration = 3,
+    Tr = 10,
+    Longshore = 150,
+    PropValue = 200,
+    disc = 0.05,
+    TimeHoriz = 50
+  )
+
+ # erosion summaries by cross-shore profile sections
+ print(wave_data)
+
 }
 }
 \references{
