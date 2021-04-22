@@ -2,12 +2,12 @@
 % Please edit documentation in R/ErosionTotals.R
 \name{ErosionTotals}
 \alias{ErosionTotals}
-\title{ErosionTotals}
+\title{Erosion Totals}
 \usage{
-ErosionTotals(dat = NA, erosion = NA, Longshore = NA)
+ErosionTotals(wave_data = NA, erosion = NA, Longshore = NA)
 }
 \arguments{
-\item{dat}{A sf and dataframe of cross-profiles returned from WaveModel.}
+\item{wave_data}{A sf and dataframe of cross-profiles returned from WaveModel.}
 
 \item{erosion}{Erosion summary table returned from ErosionTransectsUtil.}
 

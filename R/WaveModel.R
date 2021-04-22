@@ -1,4 +1,4 @@
-#' @title WaveModel
+#' @title Wave Evolution Model
 #'
 #' @description Wave attenuation model originally developed by Dr. Greg Guannel
 #' for the Coastal Natural Capital InVEST project. This function models wave

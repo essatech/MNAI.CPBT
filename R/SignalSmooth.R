@@ -1,4 +1,4 @@
-#' @title SignalSmooth
+#' @title Signal Smooth on profile
 #'
 #' @description Smooths a cross-shore elevation profile by averaging
 #' values over a moving window.

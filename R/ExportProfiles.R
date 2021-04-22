@@ -1,4 +1,4 @@
-#' @title ExportProfiles
+#' @title Export Profiles
 #'
 #' @description Exports cross shore profiles as csv files to a specified local
 #' directory.

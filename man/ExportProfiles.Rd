@@ -2,7 +2,7 @@
 % Please edit documentation in R/ExportProfiles.R
 \name{ExportProfiles}
 \alias{ExportProfiles}
-\title{ExportProfiles}
+\title{Export Profiles}
 \usage{
 ExportProfiles(
   dat = NA,

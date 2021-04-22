@@ -107,8 +107,8 @@ testthat::test_that("Wave model and veg test", {
   erosion <- ErosionTransectsUtil(Ho=2,
                                   To=6,
                                   total_wsl_adj = 0.5,
-                                  fs_dat = plink1,
-                                  wave_dat = wm1,
+                                  linkbeach = plink1,
+                                  wave_data = wm1,
                                   storm_duration = 3,
                                   Tr = 10,
                                   Longshore = NA,
@@ -121,8 +121,8 @@ testthat::test_that("Wave model and veg test", {
   erosion2 <- ErosionTransectsUtil(Ho=5,
                                   To=9,
                                   total_wsl_adj = 1,
-                                  fs_dat = plink1,
-                                  wave_dat = wm1,
+                                  linkbeach = plink1,
+                                  wave_data = wm1,
                                   storm_duration = 9,
                                   Tr = 86,
                                   Longshore = 150,
@@ -138,8 +138,8 @@ testthat::test_that("Wave model and veg test", {
   erosion3 <- ErosionTransectsUtil(Ho = 5,
                                   To = 9,
                                   total_wsl_adj = 1,
-                                  fs_dat = plink1,
-                                  wave_dat = wm1,
+                                  linkbeach = plink1,
+                                  wave_data = wm1,
                                   storm_duration = 9,
                                   Tr = 86,
                                   Longshore = 150,
@@ -161,11 +161,11 @@ testthat::test_that("Wave model and veg test", {
   ###########################################################
 
   # Summarize shoreline erosion across whole shoreline
-  ero_tot1 <- ErosionTotals(dat = wm1,
+  ero_tot1 <- ErosionTotals(wave_data = wm1,
                                 erosion = erosion2,
                                 Longshore = 150)
 
-  ero_tot2 <- ErosionTotals(dat = wm2,
+  ero_tot2 <- ErosionTotals(wave_data = wm2,
                            erosion = erosion3,
                            Longshore = 150)
 
@@ -221,6 +221,30 @@ testthat::test_that("Wave model and veg test", {
   ctrs <- fc$contours
   expect_true(as.numeric(sum(sf::st_length(ctrs))) > 100)
   # mapview(ctrs)
+
+
+
+  ###########################################################
+  # Test the depth damage summaries
+  ###########################################################
+
+  data(Bldgs)
+  data(HAZUS)
+  dd_flood <- DepthDamageFlood(Bldgs = Bldgs,
+     flood_contours = fc,
+     HAZUS = HAZUS)
+
+  expect_type(dd_flood, "list")
+  expect_true(dd_flood$VegDamage > 100)
+  expect_true(dd_flood$NoVeg_MaxDepth > 0.001)
+  expect_true(dd_flood$NoVeg_MedianDepth > 0.001)
+  expect_true(dd_flood$Veg_nStructure > 3)
+  expect_true(dd_flood$Veg_nStructure < nrow(Bldgs))
+
+
+
+
+
 
 
 })

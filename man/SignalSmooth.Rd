@@ -2,7 +2,7 @@
 % Please edit documentation in R/SignalSmooth.R
 \name{SignalSmooth}
 \alias{SignalSmooth}
-\title{SignalSmooth}
+\title{Signal Smooth on profile}
 \usage{
 SignalSmooth(point_elev = NA, SmoothParameter = 5)
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/samplePoints.R
 \name{samplePoints}
 \alias{samplePoints}
-\title{samplePoints}
+\title{sample Points along the shoreline}
 \usage{
 samplePoints(
   Coastline = NA,

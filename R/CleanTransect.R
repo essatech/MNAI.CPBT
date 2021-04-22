@@ -1,4 +1,4 @@
-#' @title CleanTransect
+#' @title Clean Transects
 #'
 #' @description Utility function to clean transects and remove anomalies that
 #' may break the wave evolution model. This function also ensures that

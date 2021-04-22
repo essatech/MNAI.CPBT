@@ -2,7 +2,7 @@
 % Please edit documentation in R/WaveModel.R
 \name{WaveModel}
 \alias{WaveModel}
-\title{WaveModel}
+\title{Wave Evolution Model}
 \usage{
 WaveModel(
   dat = NA,

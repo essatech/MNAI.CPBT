@@ -2,7 +2,7 @@
 % Please edit documentation in R/CleanTransect.R
 \name{CleanTransect}
 \alias{CleanTransect}
-\title{CleanTransect}
+\title{Clean Transects}
 \usage{
 CleanTransect(
   point_elev = NA,

@@ -1,4 +1,4 @@
-#' @title DepthDamageFlood
+#' @title Depth Damage Flood Summaries
 #'
 #' @description Summarizes flood damage values from a storm event using depth
 #' damage curves for each structure with a given flood water depth.
@@ -69,13 +69,13 @@
 #' # Run the erosion model
 #' erosion <- ErosionTransectsUtil(
 #'     Ho = 2, To = 8, total_wsl_adj = 1.2,
-#'     fs_dat = linkbeach, wave_dat = wave_data,
+#'     linkbeach = linkbeach, wave_data = wave_data,
 #'     storm_duration = 3, Tr = 10,
 #'     Longshore = ShorelinePointDist, PropValue = 200,
 #'     disc = 0.05, TimeHoriz = 50)
 #'
 #' # Get the erosion damage totals across the study area
-#' erosion_totals <- ErosionTotals(dat = wave_data,
+#' erosion_totals <- ErosionTotals(wave_data = wave_data,
 #'   erosion = erosion, Longshore = ShorelinePointDist)
 #'
 #' # Build flood contours (and rasters of water surface elevation)
@@ -95,7 +95,6 @@
 #'  dd_flood$VegDamage
 #'
 #'
-#' # Cross-shore profiles ready for modeling
 #' }
 #' @export
 DepthDamageFlood <- function(
@@ -134,8 +133,8 @@ DepthDamageFlood <- function(
   # Get the median depth of each building for each flood scenario
 
   # Resample to 5m res
-  r_d_noveg_rs <- raster::aggregate(r_d_noveg, fact=5,expand=FALSE)
-  r_d_veg_rs <- raster::aggregate(r_d_veg, fact=5,expand=FALSE)
+  r_d_noveg_rs <- raster::aggregate(r_d_noveg, fact=5, fun=mean, expand=FALSE)
+  r_d_veg_rs <- raster::aggregate(r_d_veg, fact=5, fun=mean, expand=FALSE)
 
 
   # noVeg

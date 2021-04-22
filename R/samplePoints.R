@@ -1,4 +1,4 @@
-#' @title samplePoints
+#' @title sample Points along the shoreline
 #'
 #' @description Sample points along the coastline at specified intervals.
 #'

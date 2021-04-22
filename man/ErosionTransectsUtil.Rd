@@ -2,14 +2,14 @@
 % Please edit documentation in R/ErosionTransectsUtil.R
 \name{ErosionTransectsUtil}
 \alias{ErosionTransectsUtil}
-\title{ErosionTransectsUtil}
+\title{Erosion Transects Utility}
 \usage{
 ErosionTransectsUtil(
   Ho = 2.5,
   To = 7,
   total_wsl_adj = NA,
-  fs_dat = NA,
-  wave_dat = NA,
+  linkbeach = NA,
+  wave_data = NA,
   storm_duration = 3,
   Longshore = 100,
   PropValue = 200,
@@ -29,9 +29,9 @@ ErosionTransectsUtil(
 that the chart datum and TopoBathy DEM are referenced to have 0 at low
 water. It is recommended that the erosion model is run with mean sea level.}
 
-\item{fs_dat}{Dataframe returned from LinkProfilesToBerms.}
+\item{linkbeach}{Dataframe returned from LinkProfilesToBerms.}
 
-\item{wave_dat}{sf and dataframe spatial points returned from WaveModel.}
+\item{wave_data}{sf and dataframe spatial points returned from WaveModel.}
 
 \item{storm_duration}{Storm duration in hours.}
 
@@ -136,8 +136,8 @@ erosion <- ErosionTransectsUtil(
     Ho = 2,
     To = 8,
     total_wsl_adj = 0.5,
-    fs_dat = linkbeach,
-    wave_dat = wave_data,
+    linkbeach = linkbeach,
+    wave_data = wave_data,
     storm_duration = 3,
     Tr = 10,
     Longshore = 150,

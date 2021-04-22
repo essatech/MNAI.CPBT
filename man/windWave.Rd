@@ -2,7 +2,7 @@
 % Please edit documentation in R/windWave.R
 \name{windWave}
 \alias{windWave}
-\title{windWave}
+\title{Wind Wave Model}
 \usage{
 windWave(wind_speed = 20, fetch_distance = 5000, water_depth = 100)
 }

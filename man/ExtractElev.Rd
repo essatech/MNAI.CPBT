@@ -2,7 +2,7 @@
 % Please edit documentation in R/ExtractElev.R
 \name{ExtractElev}
 \alias{ExtractElev}
-\title{ExtractElev}
+\title{Extract Elevation}
 \usage{
 ExtractElev(cross_shore_profiles = NA, TopoBathy = NA)
 }

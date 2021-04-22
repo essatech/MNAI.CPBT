@@ -1,4 +1,4 @@
-#' @title ExtractVeg
+#' @title Extract Vegegation
 #'
 #' @description Merges the cleaned cross-shore profile dataset with vegetation
 #' data. Note that this function must be run before the wave evolution and

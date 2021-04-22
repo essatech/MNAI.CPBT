@@ -2,7 +2,7 @@
 % Please edit documentation in R/submergedStructure.R
 \name{submergedStructure}
 \alias{submergedStructure}
-\title{submergedStructure}
+\title{Submerged Structure Analysis}
 \usage{
 submergedStructure(Hi = 2.5, To = 7, hi = 6, hc = 3, Cwidth = 5, Bwidth = 10)
 }

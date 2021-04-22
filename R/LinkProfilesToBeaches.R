@@ -1,4 +1,4 @@
-#' @title LinkProfilesToBeaches
+#' @title Link Profiles To Beaches
 #'
 #' @description Merges the profiles returned from WaveModel and adds foreshore
 #' beach attributes to them.

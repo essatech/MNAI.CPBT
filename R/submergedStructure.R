@@ -1,4 +1,4 @@
-#' @title submergedStructure
+#' @title Submerged Structure Analysis
 #'
 #' @description Estimates the reduction in wave height as a wave passes over a
 #' submerged structure.

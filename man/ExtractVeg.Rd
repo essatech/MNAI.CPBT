@@ -2,7 +2,7 @@
 % Please edit documentation in R/ExtractVeg.R
 \name{ExtractVeg}
 \alias{ExtractVeg}
-\title{ExtractVeg}
+\title{Extract Vegegation}
 \usage{
 ExtractVeg(pt_exp = NA, Vegetation = NA)
 }

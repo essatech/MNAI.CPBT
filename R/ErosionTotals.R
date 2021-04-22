@@ -1,9 +1,9 @@
-#' @title ErosionTotals
+#' @title Erosion Totals
 #'
 #' @description Summarizes erosion totals and damage summaries across the
 #' coastline section.
 #'
-#' @param dat A sf and dataframe of cross-profiles returned from WaveModel.
+#' @param wave_data A sf and dataframe of cross-profiles returned from WaveModel.
 #' @param erosion Erosion summary table returned from ErosionTransectsUtil.
 #' @param Longshore Longshore distance in meters should match
 #' ShorelinePointDist used in samplePoints.
@@ -12,11 +12,12 @@
 #'
 #' @export
 ErosionTotals <- function(
-  dat = NA,
+  wave_data = NA,
   erosion = NA,
   Longshore = NA
 ) {
 
+  dat <- wave_data
   # Point on beach at shoreline
   # t1 <- dat[which(dat$Xpos == -1), ]
   t1 <- dplyr::slice(dplyr::group_by(dat, dat$line_id), n=1)

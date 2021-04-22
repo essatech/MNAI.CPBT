@@ -1,4 +1,4 @@
-#' @title ExtractElev
+#' @title Extract Elevation
 #'
 #' @description Extract elevation values along cross-shore profiles lines.
 #'

@@ -1,4 +1,4 @@
-#' @title windWave
+#' @title Wind Wave Model
 #'
 #' @description Estimates the wave height and period for a given wind speed,
 #' fetch distance and water depth.

@@ -2,7 +2,7 @@
 % Please edit documentation in R/LinkProfilesToBeaches.R
 \name{LinkProfilesToBeaches}
 \alias{LinkProfilesToBeaches}
-\title{LinkProfilesToBeaches}
+\title{Link Profiles To Beaches}
 \usage{
 LinkProfilesToBeaches(BeachAttributes = NA, dat = NA)
 }

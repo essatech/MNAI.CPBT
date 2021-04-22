@@ -1,4 +1,4 @@
-#' @title ErosionTransectsUtil
+#' @title Erosion Transects Utility
 #'
 #' @description Beach erosion model originally developed by Dr. Greg Guannel
 #' for the Coastal Natural Capital InVEST project. This function estimates
@@ -9,8 +9,8 @@
 #' @param total_wsl_adj Total water surface level above the chart datum. Recall
 #' that the chart datum and TopoBathy DEM are referenced to have 0 at low
 #' water. It is recommended that the erosion model is run with mean sea level.
-#' @param fs_dat Dataframe returned from LinkProfilesToBerms.
-#' @param wave_dat sf and dataframe spatial points returned from WaveModel.
+#' @param linkbeach Dataframe returned from LinkProfilesToBerms.
+#' @param wave_data sf and dataframe spatial points returned from WaveModel.
 #' @param storm_duration Storm duration in hours.
 #' @param Longshore Longshore distance in meters should match
 #' ShorelinePointDist used in samplePoints.
@@ -107,8 +107,8 @@
 #'     Ho = 2,
 #'     To = 8,
 #'     total_wsl_adj = 0.5,
-#'     fs_dat = linkbeach,
-#'     wave_dat = wave_data,
+#'     linkbeach = linkbeach,
+#'     wave_data = wave_data,
 #'     storm_duration = 3,
 #'     Tr = 10,
 #'     Longshore = 150,
@@ -126,8 +126,8 @@ ErosionTransectsUtil <- function(
   Ho = 2.5,
   To = 7,
   total_wsl_adj = NA,
-  fs_dat = NA,
-  wave_dat = NA,
+  linkbeach = NA,
+  wave_data = NA,
   storm_duration = 3,
   Longshore = 100,
   PropValue = 200,
@@ -137,6 +137,10 @@ ErosionTransectsUtil <- function(
   mean_sea_level = 0.01,
   mean_high_water = 0.7
 ) {
+
+
+  fs_dat <- linkbeach
+  wave_dat <- wave_data
 
   ssf_lookup = getSSF()
   math.pi = pi
