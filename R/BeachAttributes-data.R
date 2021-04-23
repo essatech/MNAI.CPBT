@@ -14,6 +14,18 @@
 #'
 #' @usage data(BeachAttributes)
 #'
+#' @format A simple feature collection of eelgrass polygons.
+#' \describe{
+#'   \item{slope}{the foreshore slope (slope) as rise over run.}
+#'   \item{W}{Numeric, the berm width in meters (W).}
+#'   \item{B}{Numeric, berm height in meters (B).}
+#'   \item{D}{Numeric, dune height (D) in meters.}
+#'   \item{sediment}{Numeric, the sediment grain size in
+#' millimeters (sediment).}
+#'   \item{V}{Numeric, the beach value per meter squared in dollars (V).}
+#' }
+#'
+#'
 #' @format A simple features polygon layer of class \code{"sf"}; and
 #' \code{"data.frame"};.
 #'

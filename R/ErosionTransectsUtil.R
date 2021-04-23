@@ -11,14 +11,15 @@
 #' water. It is recommended that the erosion model is run with mean sea level.
 #' @param linkbeach Dataframe returned from LinkProfilesToBerms.
 #' @param wave_data sf and dataframe spatial points returned from WaveModel.
-#' @param storm_duration Storm duration in hours.
+#' @param storm_duration Numeric. Storm duration in hours.
 #' @param Longshore Longshore distance in meters should match
 #' ShorelinePointDist used in samplePoints.
-#' @param PropValue Property value in dollars per square meter of beach.
-#' (not used if fs_dat is provided).
-#' @param Tr Return period of the simulated storm (in years).
+#' @param PropValue Generaly land value in dollars per square meter of beach.
+#' (not used if beach polygon property values are provided).
+#' @param Tr Numeric. Return period (frequency) of the simulated storm (in years).
 #' @param disc Annual valuation discount rate over the time horizon (0 - 1).
-#' @param TimeHoriz Time horizon for valuation (in years).
+#' @param TimeHoriz Time horizon (in years) for long term cumulative valuation given a storm return frequency.
+#' Typically 100-year horizons are used.
 #' @param mean_sea_level Mean sea level elevation in meters above chart datum.
 #' @param mean_high_water Mean high water level elevation in meters above
 #' chart datum.

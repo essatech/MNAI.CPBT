@@ -21,7 +21,7 @@ LinkProfilesToBeaches <- function(
   fs$berm_heigh <- fs$B
   fs$dune_heigh <- fs$D
   fs$sed_size <- fs$sediment
-  fs$fore_slp <- fs$V
+  fs$PropValT <- fs$V
 
   # Loop through profiles
   uids <- unique(dat$line_id)

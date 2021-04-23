@@ -8,9 +8,16 @@
 #'
 #' @param pt_exp Cross-shore point elevations spatial points object
 #' returned from CleanTransect.
-#' @param Vegetation Maximum radial line distance (onshore and offshore) in
-#' kilometers of the cross-shore profiles. Note that this value must be the
-#' same value used in samplePoints().
+#' @param Vegetation A simple feature polygon of class sf and dataframe.
+#' Patch attributes must include
+#' \describe{
+#'   \item{hc}{Numeric, Blade height in meters}
+#'   \item{N}{Numeric, Shoot density as number of shoots per meter squared.}
+#'   \item{d}{Numeric, Blade width in meters.}
+#'   \item{Type}{Either 'Eelgrass', 'Kelp' or 'Marsh'.}
+#'   \item{Cd}{Numeric, Drag coefficent as per Guannel et al 2015. 
+#'   If unsure use a value of 0.1 for Eelgrass}
+#' }
 #'
 #' @return An object of class sf and data.frame updated with vegetation data
 #' attributes and ready for the wave evolution and erosion model.

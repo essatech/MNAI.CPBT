@@ -2,7 +2,7 @@
 #'
 #' @description Generates flood contours of the storm event.
 #'
-#' @param TopoBathy Flood contours object returned from FloodContours.
+#' @param TopoBathy TopoBathy digital elevation model of class RasterLayer.
 #' @param mean_high_water Mean high water tidal level above the chart datum.
 #' @param total_wsl_adj Total water surface level above the chart datum. Recall
 #' that the chart datum and TopoBathy DEM are referenced to have 0 at low

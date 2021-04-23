@@ -5,9 +5,9 @@
 #'
 #' @param point_elev Cross-shore point elevations spatial points object
 #' returned from ExtractElev.
-#' @param SmoothParameter numeric, smoothing window length as a percentage of
-#' the cross-shore profile length. A value of zero means no smoothing, but see
-#' details below.
+#' @param SmoothParameter Numeric, smoothing window length as a percentage of 
+#' the cross-shore profile length (0-100). A value of zero means no smoothing, but see
+#' details below (recommended values are 5-20).
 #'
 #' @details A smoothed cross-shore profile is necessary for convergency of the
 #' wave model. If the bottom surface topography extracted from the TopoBathy

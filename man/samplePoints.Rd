@@ -21,7 +21,7 @@ your area of interest to speed up processing time.}
 \item{BufferDist}{Buffer search distance (meters) used to identify
 the perpendicular angle of each cross-shore profile line from the coastline.}
 
-\item{RadLineDist}{Radial line distance (meters) of the cross-shore profiles.}
+\item{RadLineDist}{Numeric. Radial line distance (kilometers) of the cross-shore profiles. This value determines how for offshore (and onshore) the cross-shore profiles should extend (recommended values are 1 - 3 km).}
 }
 \value{
 A list object of shoreline points and cross-shore profile lines

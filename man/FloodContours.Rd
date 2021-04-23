@@ -12,7 +12,7 @@ FloodContours(
 )
 }
 \arguments{
-\item{TopoBathy}{Flood contours object returned from FloodContours.}
+\item{TopoBathy}{TopoBathy digital elevation model of class RasterLayer.}
 
 \item{mean_high_water}{Mean high water tidal level above the chart datum.}
 

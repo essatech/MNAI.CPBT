@@ -3,31 +3,25 @@ Package: MNAI.CPBT
 Title: Municipal Natural Assets Initiative - Coastal Protection Benefit
     Toolbox
 Version: 0.1.0
-Author: Matthew Bayly
 Authors@R:
-    c(person(
-          given = "Matthew",
-          family = "Bayly",
-          role = c("aut", "cre"),
-          email = "mbayly@essa.com",
-          comment = c("ESSA Technologies Ltd.")),
-      person(
-          given = "Cedar",
-          family = "Morton",
-          role = "ctb",
-          email = "cmorton@essa.com",
-          comment = c("ESSA Technologies Ltd.")),
-      person(
-          given = "Aline",
-          family = "Kaji",
-          role = "ctb",
-          comment = c("CBCL Ltd.")),
-      person(
-          given = "Amaury",
-          family = "Camarena",
-          role = "ctb",
-          comment = c("CBCL Ltd."))
-          )
+    c(person(given = "Matthew",
+             family = "Bayly",
+             role = c("aut", "cre"),
+             email = "mbayly@essa.com",
+             comment = "ESSA Technologies Ltd."),
+      person(given = "Cedar",
+             family = "Morton",
+             role = "ctb",
+             email = "cmorton@essa.com",
+             comment = "ESSA Technologies Ltd."),
+      person(given = "Aline",
+             family = "Kaji",
+             role = "ctb",
+             comment = "CBCL Ltd."),
+      person(given = "Amaury",
+             family = "Camarena",
+             role = "ctb",
+             comment = "CBCL Ltd."))
 Maintainer: Matthew Bayly <mbayly@essa.com>
 Description: Contains functions to model coastal wave attenuation,
     shoreline erosion and flooding. This package is an adaptation of the
@@ -41,22 +35,21 @@ BugReports: https://github.com/mattjbayly/MNAI.CPBT/issues
 Depends:
     R (>= 4.0)
 Imports:
+    dplyr,
     e1071,
     geosphere,
+    graphics,
+    gstat,
+    jsonlite,
+    methods,
     pracma,
     raster,
     rgdal,
+    rootSolve,
     sf,
     sp,
-    rootSolve,
-    graphics,
     stats,
-    utils,
-    dplyr,
-    gstat,
-    methods,
-    geosphere,
-    jsonlite
+    utils
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3

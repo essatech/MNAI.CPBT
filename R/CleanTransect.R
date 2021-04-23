@@ -10,14 +10,14 @@
 #' @param RadLineDist Maximum radial line distance (onshore and offshore) in
 #' kilometers of the cross-shore profiles. Note that this value must be the
 #' same value used in samplePoints().
-#' @param MaxOnshoreDist Maximum radial line distance onshore in kilometers.
+#' @param MaxOnshoreDist Numeric. Maximum radial line distance onshore in kilometers.
 #' Note that in some instances the onshore extent should be truncated
-#' substaintly for the wave evolution model. It is reccomended to keep this
-#' value below 1.
+#' significantly for the wave evolution model. It is recommended to keep this
+#' value below 1km.
 #' @param trimline Optional back shore trim line used to restrict the on-shore
 #' extent of the cross-shore profiles. The default value is NA (not used). If
 #' used, the back shore trim line should run parallel to the coastline but be
-#' setback onto land. A back shore trim line may be required in cases where
+#' set back onto land. A back shore trim line may be required in cases where
 #' cross-shore profiles are generated along the coastline of a narrow peninsula
 #' or in instances where there is a back shore lagoon. A back shore trimline
 #' should be provided as a simple features line object.
@@ -74,10 +74,15 @@ CleanTransect <- function(
   # loop through point sets
   for(i in 1:length(uid)) {
 
+
     this_id <- uid[i]
     this_dat <- point_elev[which(point_elev$line_id == this_id),]
 
     # plot(this_dat$elev, type='l')
+
+    if(all(is.na(this_dat$elev))){
+      next
+    }
 
     # determine if flipped
     # look at mean on each side
@@ -89,6 +94,22 @@ CleanTransect <- function(
 
     m1 <- mean(p1$elev, na.rm=TRUE)
     m2 <- mean(p2$elev, na.rm=TRUE)
+
+    if(all(is.na(m2))){
+      mid <- which(abs(p1$elev) == min(abs(p1$elev), na.rm=TRUE))
+      p1 <- this_dat[1:mid, ]
+      p2 <- this_dat[(mid + 1):nrow(this_dat), ]
+      m1 <- mean(p1$elev, na.rm=TRUE)
+      m2 <- mean(p2$elev, na.rm=TRUE)
+    }
+    if(all(is.na(m1))){
+      mid <- which(abs(p2$elev) == min(abs(p2$elev), na.rm=TRUE))
+      p1 <- this_dat[1:mid, ]
+      p2 <- this_dat[(mid + 1):nrow(this_dat), ]
+      m1 <- mean(p1$elev, na.rm=TRUE)
+      m2 <- mean(p2$elev, na.rm=TRUE)
+    }
+
 
     # if flipped - reverse
     if(m2 > m1) {

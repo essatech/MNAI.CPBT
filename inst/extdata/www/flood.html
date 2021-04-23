@@ -1,0 +1,130 @@
+<html>
+<head>
+	<script type="text/javascript" src="js/dygraph.min.js"></script>
+	
+	<!--Load Data-->
+	<script src='data/flood/floodplot.js'></script>
+	<script src='data/flood/flooddata_nbld.js'></script>
+	<script src='data/flood/flooddata_beaches.js'></script>
+	<script src='data/flood/flooddata_cost.js'></script>
+	<script src='data/flood/flooddata_ddcurve.js'></script>
+	<script src='data/flood/flooddata_ddcurveids.js'></script>
+
+	<link rel="stylesheet" type="text/css" href="css/dygraph.css" />
+	
+	<style>
+	.dygraph-legend {
+	  background: transparent !important;
+	}
+	</style>
+
+</head>
+<body>
+
+<div style="left: 90px;">
+	<div id="dygraphDepthDamageCurve">
+	</div><br><br>
+	<div id="dygraphCumFloodDamageDepth">
+	</div><br><br>
+	<div id="dygraphCumFloodDamageDepthCost">
+	</div><br><br>
+</div>
+
+
+
+<script type="text/javascript">
+  
+  console.log(floodplot);
+  
+  
+
+  
+  
+  g = new Dygraph(
+
+    // containing div
+    document.getElementById("dygraphDepthDamageCurve"),
+	flooddata_ddcurve,
+	  {
+		  title: 'Depth-Damage Curves',
+		  labels: [ '(m)', ...flooddata_ddcurveids],
+		  xlabel: 'STRUCTURE FLOOD DEPTH (m)',
+		  legend: 'always',
+		  ylabel: 'STRUCTURE DAMAGE (%)',
+		  //underlayCallback: drawLines,
+		  labelsKMB: true
+       }
+  );
+  g.updateOptions({});
+  
+  function drawLines(ctx, area, layout) {
+        if (typeof(g) == 'undefined') return;  // won't be set on the initial draw.
+
+		coeffs = VertMarkFloodLine;
+		mcols = ['#32a852','#9a86eb','#32a852','#e61573'];
+
+        var range = g.xAxisRange();
+        for (var i = 0; i < coeffs.length; i++) {
+          if (!coeffs[i]) continue;
+          var x = coeffs[i];
+		  
+          var p1 = g.toDomCoords(x, -9999999);
+          var p2 = g.toDomCoords(x, 9999999);
+
+          var color = mcols[i];
+          ctx.save();
+          ctx.strokeStyle = color;
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.moveTo(p1[0], p1[1]);
+          ctx.lineTo(p2[0], p2[1]);
+          ctx.closePath();
+          ctx.stroke();
+          ctx.restore();
+		  ctx.strokePattern = Dygraph.DASHED_LINE;
+        }
+   };
+   
+   
+   
+   
+   g2 = new Dygraph(
+
+    // containing div
+    document.getElementById("dygraphCumFloodDamageDepth"),
+	flooddata_nbld,
+	  {
+		  title: 'Number of Affected Structures',
+		  labels: [ '(m)', ...flooddata_beaches],
+		  xlabel: 'STATIC WATER LEVEL [CD] (m)',
+		  legend: 'always',
+		  ylabel: 'NUMBER OF STRUCTURES (#)',
+		  //underlayCallback: drawLinesg2,
+		  labelsKMB: true
+       }
+  );
+  g2.updateOptions({});
+  
+  
+     
+   g3 = new Dygraph(
+
+    // containing div
+    document.getElementById("dygraphCumFloodDamageDepthCost"),
+	flooddata_cost,
+	  {
+		  title: 'Total Damage Cost ($)',
+		  labels: [ '(m)', ...flooddata_beaches],
+		  xlabel: 'STATIC WATER LEVEL [CD] (m)',
+		  legend: 'always',
+		  ylabel: 'TOTAL STRUCTURE DAMAGE ($)',
+		  //underlayCallback: drawLinesg2,
+		  labelsKMB: true
+       }
+  );
+  g3.updateOptions({});
+   
+   
+</script>
+</body>
+</html>

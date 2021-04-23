@@ -19,15 +19,15 @@ returned from ExtractElev.}
 kilometers of the cross-shore profiles. Note that this value must be the
 same value used in samplePoints().}
 
-\item{MaxOnshoreDist}{Maximum radial line distance onshore in kilometers.
+\item{MaxOnshoreDist}{Numeric. Maximum radial line distance onshore in kilometers.
 Note that in some instances the onshore extent should be truncated
-substaintly for the wave evolution model. It is reccomended to keep this
-value below 1.}
+significantly for the wave evolution model. It is recommended to keep this
+value below 1km.}
 
 \item{trimline}{Optional back shore trim line used to restrict the on-shore
 extent of the cross-shore profiles. The default value is NA (not used). If
 used, the back shore trim line should run parallel to the coastline but be
-setback onto land. A back shore trim line may be required in cases where
+set back onto land. A back shore trim line may be required in cases where
 cross-shore profiles are generated along the coastline of a narrow peninsula
 or in instances where there is a back shore lagoon. A back shore trimline
 should be provided as a simple features line object.}

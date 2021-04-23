@@ -1,0 +1,547 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>MNAI.CPBT</title>
+	<meta name="description" content="The HTML5 Herald">
+	<meta name="author" content="CPBT">
+
+   <!-- MISC STYLES -->
+	<link href="http://allfont.net/allfont.css?fonts=agency-fb-bold" rel="stylesheet" type="text/css" />
+	<link rel="icon" type="image/png" href="./www/img/favicon.png" />
+
+   <!-- HIGHCHARTS -->
+	<script src="https://code.highcharts.com/highcharts.js"></script>
+	<script src="https://code.highcharts.com/modules/data.js"></script>
+
+   <!-- LEAFLET -->
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+   crossorigin=""/>
+	<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+   integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+   crossorigin=""></script>
+
+   <!-- Leaflet full screen -->
+	<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
+    <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' rel='stylesheet' />
+
+   
+   <!-- LEAFLET EXTRAS and TURF .JS -->
+     <script src='https://unpkg.com/@turf/turf/turf.min.js'></script>
+     <script src='www/src/js/L.Control.MousePosition.js'></script>
+
+   <!-- Custom Styling -->
+    <link rel="stylesheet" href="www/css/mystyle.css">
+
+   <!-- LOAD DATA -->
+     <script src='www/data/veg.json'></script>
+     <script src='www/data/flood.json'></script>
+     <script>
+      // Transect ID from page hash
+      console.log('JS page hash is Profile ID:');
+      let t_hash = location.hash;
+      if(t_hash == ''){
+        console.log('Setting hash 2');
+        location.hash = '#profile=2';
+        t_hash = location.hash;
+      }
+      const profile_id = t_hash.split('=', 3)[1];
+      console.log(profile_id);
+    </script>
+    <!-- Load in bulk datasets-->
+     <script src='www/data/tran_data.json'></script>
+     <script src='www/data/tran_feat.json'></script>
+     <script src='www/data/tran_lines.json'></script>
+     <script src='www/data/tot_erosion.json'></script>
+     <!-- Filter bulk datasets-->
+     <script>
+      var tran_data = tran_data[profile_id];
+      var tran_feat = tran_feat[profile_id];
+
+      // Pull out current line
+      var ii = 0;
+      var line_index, tran_lines_current;
+      while (ii <= tran_lines.features.length) {
+        var check = tran_lines.features[ii].properties.idd;
+        if(check === Number(profile_id)){
+          line_index = ii;
+          tran_lines_current = tran_lines.features[ii];
+          break;
+        }
+        ii++;
+      }
+
+      // check if data is empty and update transect id to next
+     </script>
+</head>
+
+<body>
+
+<div class="page-header">
+  <h1 class="transect-title" id="profile_title">MNAI CPBT Results</h1>
+</div>
+
+
+<figure class="highcharts-figure">
+
+  <div class="page-sub-header">
+    <h2 class="transect-sub-title">Simulated Conditions</h2>
+  </div>
+
+  <p class="descriptive-text">
+    <b>Storm Simulation: </b>This simulation was generated with offshore wave heights (Ho) of <span class="Ho">###</span> m with a wave period (To) of <span class="To">###</span> seconds. The storm occurred at a tidal elevation of <span class="tide_during_stormFULL">###</span> and lasted <span class="storm_duration">###</span> hours. This storm is equivalent to a 1 in <span class="Tr">###</span> year storm event (Tr). Cumulative long-term damage costs from this type of storm evaluated over a <span class="TimeHoriz">###</span> year time horizon are expected to reach to $ <span class="total_damage_Veg">###</span> from erosion damage (beach loss) and $ <span class="FloodLTDamageVeg">###</span> from flooding (damage to structures).
+  </p>
+
+  <p class="descriptive-text">
+    <b>Static Water Level (Flooding): </b>Flooding extent is determined by the still water level and any additional location-specific wave runup. In this simulation the still water level is the sum of the following components (referenced to Mean Lower Low Water - Chart Datum):
+    <ul class="descriptive-text">
+      <li>Tidal Elevation: <span class="mean_high_water">###</span> m</li>
+      <li>Storm Surge: <span class="surge_elevation">###</span> m</li>
+      <li>Sea-Level Rise: <span class="sea_level_rise">###</span> m</li>
+      <li><b>Total Still Water Level: <span class="total_wsl_adj">###</span> m</b></li>
+    </ul>  
+  </p>
+
+  <br>
+
+  <div class="page-sub-header">
+    <h2 class="transect-sub-title">Erosion Damage</h2>
+  </div>
+  <p class="descriptive-text">
+    Shoreline erosion is calculated individually for each transect and then total erosion estimates along the coastline is estimated by summarizing values across all cross-shore profiles. Local erosion at each cross-shore profile locations may be vary due to beach and foreshore parameters and offshore wave attenuation. In this section erosion is reported for the current profile and then summarized across the entire coastline. Click on another cross-shore profile in the map below to view results for a different profile.
+  </p>
+  <div class="descriptive-text">
+    <p class="descriptive-text">The following table describes the foreshore features of the current profile. Click on the map below to switch to a different profile.</p>
+    <b>Foreshore Parameters: Current Profile</b>
+    <table class="center etable">
+      <tr class="etr">
+        <th>Slope</th>
+        <th>Berm Height</th>
+        <th>Berm Width</th>
+        <th>Dune Height</th>
+        <th>Sed. Size</th>
+        <th>Land Value</th>
+      </tr>
+      <tr>
+        <td><span class="fore_slp">NUM</span> (rise/run)</td>
+        <td><span class="berm_heigh">NUM</span> m</td>
+        <td><span class="berm_lengt">NUM</span> m</td>
+        <td><span class="dune_heigh">NUM</span> m</td>
+        <td><span class="sed_size">NUM</span> mm</td>
+        <td><span class="PropValue">NUM</span> $/m2</td>
+      </tr>
+    </table>
+  </div>
+
+
+
+  <br>
+  <div class="descriptive-text">
+    <b>Erosion Estimates: Current Profile</b>
+    <table class="center etable">
+      <tr class="etr">
+        <th>Metric</th>
+        <th>Unit</th>
+        <th>Without Vegetation</th>
+        <th>With Vegetation</th>
+      </tr>
+      <tr>
+        <td>Vertical Wave Run Up (Transect)</td>
+        <td>(m)</td>
+        <td style="font-size: 25px;"><span class="runup_NoVeg">NUM</span></td>
+        <td style="font-size: 25px;"><span class="runup_Veg">NUM</span></td>
+      </tr>
+      <tr>
+        <td>Beach Retreat Distance (Transect)</td>
+        <td>(m)</td>
+        <td style="font-size: 25px;"><span class="retreat_NoVeg">NUM</span></td>
+        <td style="font-size: 25px;"><span class="retreat_Veg">NUM</span></td>
+      </tr>
+      <tr>
+        <td>Beach Retreat Percentage (Transect)</td>
+        <td>(%)</td>
+        <td style="font-size: 25px;"><span class="retreat_percentage_Noveg">NUM</span></td>
+        <td style="font-size: 25px;"><span class="retreat_percentage_veg">NUM</span></td>
+      </tr>
+      <tr>
+        <td>Beach Retreat Index (Transect)</td>
+        <td>(1-5)</td>
+        <td style="font-size: 25px;"><span class="retreat_index_NoVeg">NUM</span></td>
+        <td style="font-size: 25px;"><span class="retreat_index_Veg">NUM</span></td>
+      </tr>
+    </table>
+
+    <br>
+    <b>Erosion Estimates: Entire Coastline</b>
+    <table class="center etable">
+      <tr class="etr">
+        <th>Metric</th>
+        <th>Unit</th>
+        <th>Without Vegetation</th>
+        <th>With Vegetation</th>
+      </tr>
+      <tr>
+        <td>Area Lost m2 (Coastline)</td>
+        <td>(m2)</td>
+        <td style="font-size: 25px;"><span class="total_erosion_NoVeg_m2">NUM</span></td>
+        <td style="font-size: 25px;"><span class="total_erosion_Veg_m2">NUM</span></td>
+      </tr>
+      <tr>
+        <td>Volume Lost m3 (Coastline)</td>
+        <td>(m3)</td>
+        <td style="font-size: 25px;"><span class="volume_NoVeg">NUM</span></td>
+        <td style="font-size: 25px;"><span class="volume_Veg">NUM</span></td>
+      </tr>
+      <tr>
+        <td>Single Storm Erosion Damage</td>
+        <td>($)</td>
+        <td style="font-size: 25px;"><span class="s_storm_damage_NoVeg">###</span></td>
+        <td style="font-size: 25px;"><span class="s_storm_damage_Veg">###</span></td>
+      </tr>
+      <tr>
+        <td><span class="TimeHoriz">###</span>-Year Erosion Damage</td>
+        <td>($)</td>
+        <td style="font-size: 25px;"><span class="total_damage_NoVeg">###</span></td>
+        <td style="font-size: 25px;"><span class="total_damage_Veg">###</span></td>
+      </tr>
+    </table>
+    <br>
+
+    <p class="descriptive-text">
+      <b>Details:</b> The erosion summary tables provides estimates of erosion at the current profile and along the entire coastline (summarized between profiles). Given the foreshore parameters at the current profile and offshore wave conditions, the wave runup and lateral beach retreat distances can be calculated. These are coarse-scale estimates but provide some indication of potential beach retreat following a storm. From these values we can then estimate the area of beach lost by multiplying the beach retreat distance by the longshore extent between profiles. We can also estimate the volume of beach loss if we assume the berm height to be equivalent to the depth of erosion. The erosion damage estimate is simply a product of the area lost (m2) multiplied by the beach property value ($/m2). 
+    </p>
+
+  </div>
+
+
+  <div class="page-sub-header">
+    <h2 class="transect-sub-title">Flooding and Structural Damage</h2>
+  </div>
+
+    <p class="descriptive-text">
+      <b>Overview: </b>The MNAI CPBT estimates flooding from the combination of still water level and local wave runup. The still water level is the combination of the tidal water level during the storm (<span class="tide_during_storm"></span> m), the storm surge elevation (<span class="surge_elevation"></span> m) and any sea level rise (<span class="sea_level_rise"></span> m). Under the simulated conditions the total still water level of this storm reached <span class="total_wsl_adj"></span> m. In some areas the flood water level is then further increased by local wave runup – the vertical extent of wave onto a beach or structure above the still water level.
+    </p>
+    <p class="descriptive-text">Structural damage estimates for flooding are generated by running zonal statistics on each structure to calculate the flood water depth. Then a damage estimate is assigned to each structure as a portion of the replacement cost given an underlying depth-damage curve. The following table summarizes these damage costs and flood statistics for the simulated storm.</p>
+    <p class="descriptive-text">Based on a storm return period of <span class="Tr"></span> years (Tr) we can estimate the long-term cumulative damage costs over a long term time horizon of <span class="TimeHoriz"></span> years. Note that in this example we provide an annual discount rate of <span class="disc"></span>.</p>
+
+
+  
+  <table class="center etable">
+    <tr class="etr">
+      <th>Metric</th>
+      <th>Unit</th>
+      <th>Without Vegetation</th>
+      <th>With Vegetation</th>
+    </tr>
+    <tr>
+      <td>Flooded Structures</td>
+      <td>(#)</td>
+      <td style="font-size: 25px;"><span class="NoVeg_nStructure">###</span></td>
+      <td style="font-size: 25px;"><span class="Veg_nStructure">###</span></td>
+    </tr>
+    <tr>
+      <td>Median Flood Depth</td>
+      <td>(m)</td>
+      <td style="font-size: 25px;"><span class="NoVeg_MedianDepth">###</span></td>
+      <td style="font-size: 25px;"><span class="Veg_MedianDepth">###</span></td>
+    </tr>
+    <tr>
+      <td>Max Flood Depth</td>
+      <td>(m)</td>
+      <td style="font-size: 25px;"><span class="NoVeg_MaxDepth">###</span></td>
+      <td style="font-size: 25px;"><span class="Veg_MaxDepth">###</span></td>
+    </tr>
+    <tr>
+      <td>Flood Damage (Single Storm)</td>
+      <td>($)</td>
+      <td style="font-size: 25px;"><span class="NoVegDamage">###</span></td>
+      <td style="font-size: 25px;"><span class="VegDamage">###</span></td>
+    </tr>
+    <tr>
+      <td>Flood Damage (<span class="TimeHoriz">###</span>-Year Summary)</td>
+      <td>($)</td>
+      <td style="font-size: 25px;"><span class="FloodLTDamageNoVeg">###</span></td>
+      <td style="font-size: 25px;"><span class="FloodLTDamageVeg">###</span></td>
+    </tr>
+  </table>
+
+
+  <div class="page-sub-header">
+    <h2 class="transect-sub-title">Wave Attenuation and Overview Map</h2>
+  </div>
+
+  <p class="descriptive-text">
+      <b>Overview Map: </b>This map shows an overview of transect location and flooding extent across the study area. Grey lines represent individual transects, green polygons represent vegetation and dotted lines represent flooding contours. Click on a transect or vegetation patch to view details. The black dotted line shows the high tide contour, the purple dotted line shows the contour for the total static water level and the red and greens dotted lines show the contour and extent of flooding with (green) and without vegetation (red).
+  </p>
+
+  <div id="mapid"></div>
+  <hr class="hr-essa">
+
+  <p class="descriptive-text">
+      <b>Overview: </b>The following plots show a longitudinal profile of the transect. The first two plots show wave attenuation without (red) and with (green) vegetation. The third panel shows a depth profile with zero set to the chart datum (MLLW). The fourth panel shows the position and height of any vegetation patches along the transect.
+  </p>
+
+  <div id="container"></div>
+  <hr class="hr-essa">
+
+
+
+  <p class="highcharts-description">
+  </p>
+
+
+  <br>
+
+
+
+
+  <hr class="hr-essa">
+
+
+
+
+
+<div class="page-sub-header">
+  <h2 class="transect-sub-title">Contributors</h2>
+</div>
+
+
+<div class="page-header" style="background: #ffffff">
+  <div>
+    <img src="./www/img/iconend.png" alt="End Logo" width="500" style="background-color:white;">
+  </div>
+</div>
+
+
+</figure>
+
+
+  <!-- HIGH CHARTS LOGIC -->
+  <script src="www/js/plot_profiles.js"></script>
+  <!--<script src="www/js/mycharts.js"></script>-->
+
+  <script>
+	
+  // ##############################################
+  // Update content of html for the current profile
+  // ##############################################
+
+  function numberWithCommas(x) {
+    var x2 = x.toFixed(0)
+    return x2.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
+
+
+
+    function RepClassValue(myclass, newvalue) {
+      var rep = document.getElementsByClassName(myclass);
+      
+      [].slice.call(rep).forEach(function ( rep ) {
+        rep.innerHTML = newvalue;
+      });
+
+    }
+
+
+    // ##############################################
+    // Totals for Simulation
+    // ##############################################
+
+      for (const [key, value] of Object.entries(tot_erosion)) {
+        //RepClassValue('volume_Veg', `${tot_erosion.volume_Veg[0]}`);
+        RepClassValue(key, value);
+      }
+
+      RepClassValue('tide_during_stormFULL', `${tot_erosion.tide_during_storm[0]} (Low Tide: 0 m, High Tide: ${tot_erosion.mean_high_water[0]} m)`);
+      RepClassValue('s_storm_damage_NoVeg', `${numberWithCommas(tot_erosion.s_storm_damage_NoVeg[0])}`);
+      RepClassValue('s_storm_damage_Veg', `${numberWithCommas(tot_erosion.s_storm_damage_Veg[0])}`);
+      RepClassValue('total_damage_NoVeg', `${numberWithCommas(tot_erosion.total_damage_NoVeg[0])}`);
+      RepClassValue('total_damage_Veg', `${numberWithCommas(tot_erosion.total_damage_Veg[0])}`);
+
+      RepClassValue('NoVegDamage', `${numberWithCommas(tot_erosion.NoVegDamage[0])}`);
+      RepClassValue('VegDamage', `${numberWithCommas(tot_erosion.VegDamage[0])}`);
+      RepClassValue('FloodLTDamageNoVeg', `${numberWithCommas(tot_erosion.FloodLTDamageNoVeg[0])}`);
+      RepClassValue('FloodLTDamageVeg', `${numberWithCommas(tot_erosion.FloodLTDamageVeg[0])}`);
+
+
+
+
+
+    // ##############################################
+    // Totals for Transect
+    // ##############################################
+
+      for (const [key, value] of Object.entries(tran_feat)) {
+          RepClassValue(key, value);
+      }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    //document.getElementsByClassName("sea_level_rise")[0].innerHTML = `${tot_erosion.sea_level_rise[0]}`;
+
+
+
+/*
+
+    document.getElementById("storm_duration").innerHTML = `${tot_erosion.storm_duration[0]}`;
+    //document.getElementById("surge_elevation").innerHTML = `${tot_erosion.surge_elevation[0]}`;
+    document.getElementById("total_damage_Veg").innerHTML = `${numberWithCommas(tot_erosion.total_damage_Veg[0])}`;
+    document.getElementById("total_damage_NoVeg").innerHTML = `${numberWithCommas(tot_erosion.total_damage_NoVeg[0])}`;
+
+    document.getElementById("Veg_nStructure").innerHTML = `${tot_erosion.Veg_nStructure[0]}`;
+    document.getElementById("NoVeg_nStructure").innerHTML = `${tot_erosion.NoVeg_nStructure[0]}`;
+    document.getElementById("Veg_MedianDepth").innerHTML = `${tot_erosion.Veg_MedianDepth[0]}`;
+    document.getElementById("NoVeg_MedianDepth").innerHTML = `${tot_erosion.NoVeg_MedianDepth[0]}`;
+
+
+    */
+
+
+
+
+
+
+
+
+
+  var mymap = new L.map('mapid');
+  mymap.setView([tran_feat.mid_lat[0], tran_feat.mid_long[0]], 14);
+  mymap.options.minZoom = 4;
+  mymap.options.maxZoom = 20;
+  mymap.addControl(new L.Control.Fullscreen());
+
+	// 48.956990, -125.433394
+
+	googleHybrid = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',{
+    maxZoom: 20,
+    subdomains:['mt0','mt1','mt2','mt3']});
+    googleHybrid.addTo(mymap);
+	
+	L.control.mousePosition().addTo(mymap);
+
+	
+	// Highcharts leaflet control - define here, just call
+	// later - unstable
+	var wiggle_marker = L.marker([0,0]).addTo(mymap);
+	
+	var wiggle_line_lat = [[0, -180], [0, 0]];
+	var wiggle_line_lat_s = L.polyline(wiggle_line_lat, {color: 'yellow', weight: 0.7}).addTo(mymap);
+	
+	var wiggle_line_lng = [[0, 0], [90, 0]];
+	var wiggle_line_lng_s = L.polyline(wiggle_line_lng, {color: 'yellow', weight: 0.7}).addTo(mymap);
+	
+	
+
+
+
+  
+
+  // Add vegetation to map
+
+  L.geoJSON(veg, {
+    style: function(feature) {
+      switch (feature.properties.Type) {
+        case 'Marsh': return {color: "#22BD87"};
+        case 'Kelp':   return {color: "#8E7633"};
+        case 'Eelgrass': case 'Seagrass': return {color: "#397D49"};
+      }
+    },
+    onEachFeature: function (feature, layer) {
+       layer.bindPopup(`<b>${feature.properties.Type}</b></br>Stem Height: ${feature.properties.StemHeight}(m)</br>Stem Diam: ${feature.properties.StemDiam}(m)</br>Stem Density: ${feature.properties.StemDensty} (#/m2)</br>Cd: ${feature.properties.Cd}`);
+    }
+  }).addTo(mymap);
+
+
+  // Add flood contours to map
+
+  L.geoJSON(flood, {
+    style: function(feature) {
+      switch (feature.properties.name) {
+        case 'LowTide': return {color: "#000000", weight: 0.9, dashArray: '5, 5'};
+        case 'HighTide':   return {color: "#000000", weight: 0.9, dashArray: '5, 5'};
+        case 'StaticWL':   return {color: "#d77ee0", weight: 2, dashArray: '5, 5'};
+        case 'RunUpVeg':   return {color: "#40e368", weight: 2, dashArray: '5, 5'};
+        case 'RunUpNoVeg':   return {color: "#ed5e45", weight: 2, dashArray: '5, 5'};
+      }
+    },
+    onEachFeature: function (feature, layer) {
+       layer.bindPopup(`<b>${feature.properties.name}</b>`);
+    }
+  }).addTo(mymap);
+
+
+
+
+
+
+
+
+  L.geoJSON(tran_lines, {
+    style: {"color": "lightblue", "weight": 4, "opacity": 0.25},
+    onEachFeature: function(feature, layer) {
+        layer.bindPopup(`<b>Profile ID:${feature.properties.idd}</b>`);
+        //layer.on('mouseover', function() { layer.openPopup(); });
+        //layer.on('mouseout', function() { layer.closePopup(); });
+        layer.on('click', function (e) {
+          // Set ID and reload page to new transect
+          console.log(feature.properties.idd);
+          var new_id = feature.properties.idd;
+          location.hash = `#profile=${new_id}`; 
+          window.location.reload();
+        });
+      }
+    }).addTo(mymap);
+
+  L.geoJSON(tran_lines_current, {style: {"color": "blue", "weight": 5, "opacity": 0.45}}).addTo(mymap);
+
+
+
+  var myLayerControl = {
+    "Vegetation": veg
+  };
+  //L.control.layers(null, myLayerControl).addTo(mymap);
+  L.control.scale().addTo(mymap);
+
+
+
+  function whenTransectClicked(e) {
+    // e = event
+    console.log(e);
+    // You can make your ajax call declaration here
+    //$.ajax(... 
+  }
+
+
+  </script>
+
+
+</body>
+</html>

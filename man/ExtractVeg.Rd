@@ -10,9 +10,16 @@ ExtractVeg(pt_exp = NA, Vegetation = NA)
 \item{pt_exp}{Cross-shore point elevations spatial points object
 returned from CleanTransect.}
 
-\item{Vegetation}{Maximum radial line distance (onshore and offshore) in
-kilometers of the cross-shore profiles. Note that this value must be the
-same value used in samplePoints().}
+\item{Vegetation}{A simple feature polygon of class sf and dataframe.
+Patch attributes must include
+\describe{
+  \item{hc}{Numeric, Blade height in meters}
+  \item{N}{Numeric, Shoot density as number of shoots per meter squared.}
+  \item{d}{Numeric, Blade width in meters.}
+  \item{Type}{Either 'Eelgrass', 'Kelp' or 'Marsh'.}
+  \item{Cd}{Numeric, Drag coefficent as per Guannel et al 2015. 
+  If unsure use a value of 0.1 for Eelgrass}
+}}
 }
 \value{
 An object of class sf and data.frame updated with vegetation data

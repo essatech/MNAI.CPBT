@@ -3,32 +3,142 @@
 \name{CPBT}
 \alias{CPBT}
 \title{Coastal Protection Benefit Tool}
+\format{
+Patch attributes must include.
+\describe{
+  \item{hc}{Numeric, Blade height in meters}
+  \item{N}{Numeric, Shoot density as number of shoots per meter squared.}
+  \item{d}{Numeric, Blade width in meters.}
+  \item{Type}{Either 'Eelgrass', 'Kelp' or 'Marsh'.}
+  \item{Cd}{Numeric, Drag coefficent as per Guannel et al 2015.
+  If unsure use a value of 0.1 for Eelgrass}
+}
+
+foreshore beach attributes. Each beach section should be characterized with field attributes:
+\describe{
+  \item{slope}{the foreshore slope (slope) as rise over run.}
+  \item{W}{Numeric, the berm width in meters (W).}
+  \item{B}{Numeric, berm height in meters (B).}
+  \item{D}{Numeric, dune height (D) in meters.}
+  \item{sediment}{Numeric, the sediment grain size in
+millimeters (sediment).}
+  \item{V}{Numeric, the beach value per meter squared in dollars (V).}
+}
+
+Building footprint attribute fields must include columns:
+\describe{
+  \item{DDID}{Numeric, the HAZUS depth-damage curves IDs populated for
+each structure (column name: DDID).}
+  \item{VAL}{Numeric, estimates of the replacement value cost
+for each structure in dollars (VAL).}
+}
+}
 \usage{
-CPBT(Bldgs = NA, flood_contours = NA, HAZUS = NA)
+CPBT(
+  simulation_name = "My Simulation",
+  dir_output = getwd(),
+  Coastline = NA,
+  ShorelinePointDist = 200,
+  BufferDist = 50,
+  RadLineDist = 1,
+  TopoBathy = NA,
+  SmoothParameter = 5,
+  MaxOnshoreDist = 0.1,
+  trimline = NA,
+  Vegetation = NA,
+  mean_high_water = 1.5,
+  mean_sea_level = 0.5,
+  tide_during_storm = 0.9,
+  surge_elevation = 0.5,
+  sea_level_rise = 0.15,
+  Ho = 2.5,
+  To = 7,
+  storm_duration = 3,
+  BeachAttributes = NA,
+  Tr = 10,
+  PropValue = 200,
+  disc = 0.05,
+  TimeHoriz = 100,
+  Bldgs = NA,
+  export_report = FALSE
+)
 }
 \arguments{
-\item{Bldgs}{sf and dataframe polygon object of building structure foot
-prints. This dataset must have HAZUS depth-damge curves IDs populated for
-each structure (DDID) as well as estimates of the replacement value cost
-for each structure in dollars (VAL). See data(Bldgs) for an example input.}
+\item{simulation_name}{Simulation name for current storm and conditions.}
 
-\item{flood_contours}{Flood contours object returned from FloodContours.}
+\item{dir_output}{Local output directory for CPBT simulation results.}
 
-\item{HAZUS}{HAZUS depth-damage reference curves. Note that these are
-included in the package see data(HAZUS). Users may modify these curves,
-but it is expected that most users will use default values.}
+\item{Coastline}{Linestring of class sf and dataframe. Coastline spatial
+line segment for modeling. The coastline should roughly trace the water
+edge along the beach at the mean sea level. It is recommended to keep}
+
+\item{ShorelinePointDist}{Numeric. Spacing between cross-shore profile lines (meters).
+Note that it is recommended to keep this number as large as possible for
+your area of interest to speed up processing time.}
+
+\item{BufferDist}{Numeric. Buffer search distance (meters) used to identify
+the perpendicular angle of each cross-shore profile line from the coastline
+(recommended values are 100-300).}
+
+\item{RadLineDist}{Numeric. Radial line distance (kilometers) of the cross-shore profiles. This value determines how for offshore (and onshore) the cross-shore profiles should extend (recommended values are 1 - 3 km).}
+
+\item{TopoBathy}{TopoBathy digital elevation model of class RasterLayer.}
+
+\item{SmoothParameter}{Numeric, smoothing window length as a percentage of
+the cross-shore profile length (0-100). A value of zero means no smoothing, but see
+details below (recommended values are 5-20).}
+
+\item{MaxOnshoreDist}{Numeric. Maximum radial line distance onshore in kilometers.
+Note that in some instances the onshore extent should be truncated
+significantly for the wave evolution model. It is recommended to keep this
+value below 1km.}
+
+\item{trimline}{Optional back shore trim line used to restrict the on-shore
+extent of the cross-shore profiles. The default value is NA (not used). If
+used, the back shore trim line should run parallel to the coastline but be
+set back onto land. A back shore trim line may be required in cases where
+cross-shore profiles are generated along the coastline of a narrow peninsula
+or in instances where there is a back shore lagoon. A back shore trimline
+should be provided as a simple features line object.}
+
+\item{Vegetation}{A simple feature polygon of class sf and dataframe.}
+
+\item{mean_high_water}{Mean high tidal water elevation above the chart datum.}
+
+\item{mean_sea_level}{Mean average tidal water elevation above the chart datum.}
+
+\item{tide_during_storm}{Numeric, Tidal elevation in meters during the storm referenced to the Chart Datum.}
+
+\item{surge_elevation}{Numeric, Additional elevation from storm surge (in meters) during the storm.}
+
+\item{sea_level_rise}{Numeric, Additional elevation from any local sea-level rise (in meters) during the storm.}
+
+\item{Ho}{Initial offshore wave height in meters.}
+
+\item{To}{Initial offshore wave period in seconds.}
+
+\item{storm_duration}{Numeric. Storm duration in hours.}
+
+\item{BeachAttributes}{Spatial polygons of class sf and dataframe for}
+
+\item{Tr}{Numeric. Return period (frequency) of the simulated storm (in years).}
+
+\item{PropValue}{Generaly land value in dollars per square meter of beach.
+(not used if beach polygon property values are provided).}
+
+\item{disc}{Annual valuation discount rate over the time horizon (0 - 1).}
+
+\item{TimeHoriz}{Time horizon (in years) for long term cumulative valuation given a storm return frequency.
+Typically 100-year horizons are used.}
+
+\item{Bldgs}{Spatial polygon of building footprints of class sf and dataframe.
+See data(Bldgs) for an example input format.}
+
+\item{export_report}{Boolean for debugging. Keep set at TRUE.}
 }
 \value{
-Flood damage cost summaries for the storm event with the number of
-structures flooded, the mean flood depth and the total damage cost. Values
-are provided for scenarios with submerged vegetation and without submerged
-vegetation.
-#' \describe{
-  \item{nStructure}{Nummber of structures flooded.}
-  \item{MedianDepth}{Median depth of flooded structure.}
-  \item{MaxDepth}{Maximum flood depth across all structures.}
-  \item{Damage}{Total flood structural damage cost in dollars.}
-}
+Export a html output report folder to a local directory with the
+complete CPBT results summary.
 }
 \description{
 Runs the complete CPBT analysis along a coastline for a given
@@ -36,76 +146,44 @@ storm simulation.
 }
 \examples{
 \dontrun{
+
 library(MNAI.CPBT)
+
 data(Coastline)
-# Generate cross-shore profile lines along the coastline.
-  ShorelinePointDist = 150
-  crossshore_profiles <- samplePoints(
-    Coastline = Coastline,
-    ShorelinePointDist = ShorelinePointDist,
-    BufferDist = 50, RadLineDist = 1.5)
-
-crossshore_lines <- crossshore_profiles[[2]]
-
-
-# Extract elevation values along each profile
-  rpath <-  system.file("extdata", "TopoBathy.tif", package = "MNAI.CPBT")
-  TopoBathy <- raster::raster(rpath)
-  pt_elevs <- ExtractElev(crossshore_lines, TopoBathy)
-
-
-# Run SignalSmooth function to smooth elevation profiles
-  pt_elevs <- SignalSmooth(point_elev = pt_elevs,
-  SmoothParameter = 5)
-
-
-# Clean the cross-shore profiles with CleanTransect
-cleantransect <- CleanTransect(
-  point_elev = pt_elevs,
-  RadLineDist = 1.5, MaxOnshoreDist = 0.01, trimline = NA
-)
-
-# Merge vegetation onto lines
+data(BeachAttributes)
+rpath <- system.file("extdata", "TopoBathy.tif", package = "MNAI.CPBT")
+TopoBathy <- raster::raster(rpath)
 data(Vegetation)
-dat_veg <- ExtractVeg(pt_exp = cleantransect, Vegetation = Vegetation)
+data(Bldgs)
 
-# Run the wave evolution model
-wave_data <- WaveModel(dat = dat_veg,
-  total_wsl_adj = 1.2,
-  Ho = 1.5, To = 5)
-
-# Link data to foreshore beach attributes
-linkbeach <- LinkProfilesToBeaches(BeachAttributes = BeachAttributes,
-dat = wave_data)
-
-# Run the erosion model
-erosion <- ErosionTransectsUtil(
-    Ho = 2, To = 8, total_wsl_adj = 1.2,
-    linkbeach = linkbeach, wave_data = wave_data,
-    storm_duration = 3, Tr = 10,
-    Longshore = ShorelinePointDist, PropValue = 200,
-    disc = 0.05, TimeHoriz = 50)
-
-# Get the erosion damage totals across the study area
-erosion_totals <- ErosionTotals(wave_data = wave_data,
-  erosion = erosion, Longshore = ShorelinePointDist)
-
-# Build flood contours (and rasters of water surface elevation)
-# over the study area.
- flood_contours <- FloodContours(TopoBathy = TopoBathy, mean_high_water = 1,
-  total_wsl_adj = 1.2, erosion_totals = erosion_totals)
-
-# Calculate the total flood damage cost using depth damage curves
-
- data(Bldgs)
- data(HAZUS)
- dd_flood <- DepthDamageFlood(Bldgs = Bldgs,
-   flood_contours = flood_contours,
-   HAZUS = HAZUS)
-
- # Total damage cost of flooding (dollars)
- dd_flood$VegDamage
-
+CPBT(
+  simulation_name = "My Simulation",
+  dir_output = getwd(),
+  Coastline = Coastline,
+  ShorelinePointDist = 50,
+  BufferDist = 25,
+  RadLineDist = 1,
+  TopoBathy = TopoBathy,
+  SmoothParameter = 5,
+  MaxOnshoreDist = 0.1,
+  trimline = NA,
+  Vegetation = Vegetation,
+  mean_high_water = 1.5,
+  mean_sea_level = 0.5,
+  tide_during_storm = 0.9,
+  surge_elevation = 0.2,
+  sea_level_rise = 0.15,
+  Ho = 3,
+  To = 9,
+  storm_duration = 6,
+  BeachAttributes = BeachAttributes,
+  Tr = 50,
+  PropValue = 200,
+  disc = 0.03,
+  TimeHoriz = 200,
+  Bldgs = Bldgs,
+  export_report = FALSE
+)
 
 }
 }

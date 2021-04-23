@@ -8,7 +8,7 @@
 #'  your area of interest to speed up processing time.
 #' @param BufferDist Buffer search distance (meters) used to identify
 #' the perpendicular angle of each cross-shore profile line from the coastline.
-#' @param RadLineDist Radial line distance (meters) of the cross-shore profiles.
+#' @param RadLineDist Numeric. Radial line distance (kilometers) of the cross-shore profiles. This value determines how for offshore (and onshore) the cross-shore profiles should extend (recommended values are 1 - 3 km).
 #'
 #' @return A list object of shoreline points and cross-shore profile lines
 #' along the coastline.

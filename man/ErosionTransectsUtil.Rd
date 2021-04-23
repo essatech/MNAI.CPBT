@@ -33,19 +33,20 @@ water. It is recommended that the erosion model is run with mean sea level.}
 
 \item{wave_data}{sf and dataframe spatial points returned from WaveModel.}
 
-\item{storm_duration}{Storm duration in hours.}
+\item{storm_duration}{Numeric. Storm duration in hours.}
 
 \item{Longshore}{Longshore distance in meters should match
 ShorelinePointDist used in samplePoints.}
 
-\item{PropValue}{Property value in dollars per square meter of beach.
-(not used if fs_dat is provided).}
+\item{PropValue}{Generaly land value in dollars per square meter of beach.
+(not used if beach polygon property values are provided).}
 
-\item{Tr}{Return period of the simulated storm (in years).}
+\item{Tr}{Numeric. Return period (frequency) of the simulated storm (in years).}
 
 \item{disc}{Annual valuation discount rate over the time horizon (0 - 1).}
 
-\item{TimeHoriz}{Time horizon for valuation (in years).}
+\item{TimeHoriz}{Time horizon (in years) for long term cumulative valuation given a storm return frequency.
+Typically 100-year horizons are used.}
 
 \item{mean_sea_level}{Mean sea level elevation in meters above chart datum.}
 

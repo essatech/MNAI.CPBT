@@ -1,0 +1,11 @@
+var tran_lines = 
+{
+"type": "FeatureCollection",
+"name": "tran_lines",
+"features": [
+{ "type": "Feature", "id": 1, "properties": { "idd": 2 }, "geometry": { "type": "LineString", "coordinates": [ [ -64.511920917809931, 46.245975596738738 ], [ -64.513203945213064, 46.241684266071452 ] ] } },
+{ "type": "Feature", "id": 2, "properties": { "idd": 3 }, "geometry": { "type": "LineString", "coordinates": [ [ -64.508887370622915, 46.245874874446066 ], [ -64.511360701546877, 46.241050346967555 ] ] } },
+{ "type": "Feature", "id": 3, "properties": { "idd": 4 }, "geometry": { "type": "LineString", "coordinates": [ [ -64.506304696394764, 46.246051229542509 ], [ -64.509499589374627, 46.24053110118183 ] ] } },
+{ "type": "Feature", "id": 4, "properties": { "idd": 5 }, "geometry": { "type": "LineString", "coordinates": [ [ -64.505066681982143, 46.244702830546977 ], [ -64.507594815923383, 46.240084053242981 ] ] } }
+]
+}

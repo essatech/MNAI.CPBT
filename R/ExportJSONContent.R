@@ -1,10 +1,13 @@
-
+#' Exports JSON content
+#' @keywords internal
 ExportJSONContent <- function(
   path_output = NA,
   flood_contour = NA,
   merg_Veg = NA,
   wave_dat = NA,
-  dat = NA
+  dat = NA,
+  ero_tot = NA,
+  total_wsl_adj = NA
 ) {
 
 
@@ -31,6 +34,8 @@ ExportJSONContent <- function(
 
     # add bracket at end file
   }
+
+
 
 
 
@@ -230,8 +235,8 @@ ExportJSONContent <- function(
     #------------------------------------------
 
     # Get start point and bearing - for map (seperate json file)
-    start_coord <- head(sf::st_coordinates(this_transect),1)
-    end_coord <- tail(sf::st_coordinates(this_transect),1)
+    start_coord <- utils::head(sf::st_coordinates(this_transect),1)
+    end_coord <- utils::tail(sf::st_coordinates(this_transect),1)
     bearing <- geosphere::bearingRhumb( c(start_coord[1], start_coord[2]),c(end_coord[1], end_coord[2]))
 
     # Set map center
@@ -262,6 +267,31 @@ ExportJSONContent <- function(
     this_tran_prop[['berm_heigh']] <- round(tran_e$berm_heigh,2)
     this_tran_prop[['dune_heigh']] <- round(tran_e$dune_heigh,2)
     this_tran_prop[['fore_slp']] <- round(tran_e$fore_slp,3)
+
+    # Beach Retreat Percentage
+    this_tran_prop[['retreat_percentage_veg']] <- round((tran_e$retreat_pct_Veg),0)
+    this_tran_prop[['retreat_percentage_Noveg']] <- round((tran_e$retreat_pct_NoVeg),0)
+
+    this_tran_prop[['retreat_index_Veg']] <- as.numeric(as.character((tran_e$retreat_index_Veg)))
+    this_tran_prop[['retreat_index_NoVeg']] <- as.numeric(as.character((tran_e$retreat_index_NoVeg)))
+
+    this_tran_prop[['area_loss_Veg']] <- round((tran_e$area_loss_Veg),0)
+    this_tran_prop[['area_loss_NoVeg']] <- round((tran_e$area_loss_NoVeg),0)
+
+    this_tran_prop[['vol_loss_Veg']] <- round((tran_e$vol_loss_Veg),0)
+    this_tran_prop[['vol_loss_NoVeg']] <- round((tran_e$vol_loss_NoVeg),0)
+
+    this_tran_prop[['damage_t_Veg_ss']] <- round((tran_e$damage_t_Veg_ss),0)
+    this_tran_prop[['damage_t_NoVeg_ss']] <- round((tran_e$damage_t_NoVeg_ss),0)
+
+    this_tran_prop[['damage_t_Veg']] <- round((tran_e$damage_Veg),0)
+    this_tran_prop[['damage_t_NoVeg']] <- round((tran_e$damage_NoVeg),0)
+
+
+
+
+
+
 
     this_tran_prop[['id']] <- this_id
 

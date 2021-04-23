@@ -10,9 +10,9 @@ SignalSmooth(point_elev = NA, SmoothParameter = 5)
 \item{point_elev}{Cross-shore point elevations spatial points object
 returned from ExtractElev.}
 
-\item{SmoothParameter}{numeric, smoothing window length as a percentage of
-the cross-shore profile length. A value of zero means no smoothing, but see
-details below.}
+\item{SmoothParameter}{Numeric, smoothing window length as a percentage of 
+the cross-shore profile length (0-100). A value of zero means no smoothing, but see
+details below (recommended values are 5-20).}
 }
 \value{
 An object of class sf and data.frame with the added column
