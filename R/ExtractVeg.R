@@ -15,7 +15,7 @@
 #'   \item{N}{Numeric, Shoot density as number of shoots per meter squared.}
 #'   \item{d}{Numeric, Blade width in meters.}
 #'   \item{Type}{Either 'Eelgrass', 'Kelp' or 'Marsh'.}
-#'   \item{Cd}{Numeric, Drag coefficent as per Guannel et al 2015. 
+#'   \item{Cd}{Numeric, Drag coefficent as per Guannel et al 2015.
 #'   If unsure use a value of 0.1 for Eelgrass}
 #' }
 #'
@@ -165,6 +165,20 @@ if(length(Vegetation) != 1) {
     # Need to remove overlapping portions
     # reverse order
     all <- all[nrow(all):1, ]
+
+
+    if(all(is.na(sf::st_dimension(all)))){
+      # If no touch then exit
+      pt_exp$Type <- NA
+      pt_exp$StemHeight <- NA
+      pt_exp$StemDiam <- NA
+      pt_exp$StemDensty <- NA
+      pt_exp$Cd <- NA
+      dat <- pt_exp
+      return(dat)
+    }
+
+
 
     all2 <- sf::st_intersection(all)
     merg_Veg <- all2[which(sf::st_geometry_type(all2) %in% c('POLYGON', 'MULTIPOLYGON')), ]

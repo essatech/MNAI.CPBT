@@ -62,19 +62,37 @@ ExportJSONContent <- function(
   # Export vegetation layer to JSON
   #============================================
 
-  in_obj <- merg_Veg[, c('Type','StemHeight','StemDiam','StemDensty','Cd')]
+  if(length(merg_Veg) != 1) {
 
-  # Convert to EPSG: 4326
-  in_obj_t <- sf::st_transform(in_obj, 4326)
+    in_obj <- merg_Veg[, c('Type','StemHeight','StemDiam','StemDensty','Cd')]
 
-  # Convert to sp object
-  in_obj_t_sp <- methods::as(in_obj_t, "Spatial")
+    # Convert to EPSG: 4326
+    in_obj_t <- sf::st_transform(in_obj, 4326)
 
-  out_fname <- paste0(path_output,
-                      'www/data/veg.json'
-  )
+    # Ensure no empty geometries
+    in_obj_t <- in_obj_t[!(sf::st_is_empty(in_obj_t)),]
 
-  BuildjsJSONobj(out_fname = out_fname, layer_name='veg', exp_obj = in_obj_t_sp)
+
+    # Convert to sp object
+    in_obj_t_sp <- methods::as(in_obj_t, "Spatial")
+
+    out_fname <- paste0(path_output,
+                        'www/data/veg.json'
+    )
+
+    BuildjsJSONobj(out_fname = out_fname, layer_name='veg', exp_obj = in_obj_t_sp)
+
+  } else {
+
+    out_fname <- paste0(path_output,
+                        'www/data/veg.json'
+    )
+    #if (file.exists(out_fname)) {
+    #  file.remove(out_fname)
+    #}
+
+
+  }
 
 
 

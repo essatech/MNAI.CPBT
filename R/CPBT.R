@@ -7,7 +7,7 @@
 #' @param dir_output Local output directory for CPBT simulation results.
 #' @param Coastline Linestring of class sf and dataframe. Coastline spatial
 #' line segment for modeling. The coastline should roughly trace the water
-#' edge along the beach at the mean sea level. It is recommended to keep
+#' edge along the beach at the mean sea level. It is recommended to keep the coastline geometry simple and avoid sharp corners.
 #' @param ShorelinePointDist Numeric. Spacing between cross-shore profile lines (meters).
 #'  Note that it is recommended to keep this number as large as possible for
 #'  your area of interest to speed up processing time.
@@ -155,7 +155,7 @@ CPBT <- function(
 
 
   pdg <- function(msg){
-    if(!(export_report)){
+    if(TRUE){
       print(msg)
     }
   }
@@ -237,12 +237,12 @@ CPBT <- function(
   pdg(RadLineDist)
   pdg(MaxOnshoreDist)
 
-  cleantransect <- CleanTransect(
+  cleantransect <- suppressWarnings(CleanTransect(
     point_elev = pt_elevs,
     RadLineDist = RadLineDist,
     MaxOnshoreDist = MaxOnshoreDist,
     trimline = trimline
-    )
+    ))
 
   # Merge vegetation onto lines
   pdg("ExtractVeg....")
@@ -257,6 +257,8 @@ CPBT <- function(
     Ho = Ho, To = To
     )
 
+  pdg(paste0("Ok transects: ", length(unique(wave_data$line_id))))
+
   # Link data to foreshore beach attributes
   pdg("LinkProfilesToBeaches....")
   linkbeach <- LinkProfilesToBeaches(BeachAttributes = BeachAttributes,
@@ -264,6 +266,9 @@ CPBT <- function(
 
   # Run the erosion model
   pdg("ErosionTransectsUtil....")
+  print(surge_elevation)
+  print(total_water_level_erosion)
+
   erosion <- ErosionTransectsUtil(
      Ho = Ho, To = To,
      total_wsl_adj = total_water_level_erosion,
@@ -394,10 +399,22 @@ CPBT <- function(
   # Prep objects
   flood_contour <- flood_contours[["contours"]]
 
-  merg_Veg <- Vegetation
-  merg_Veg$StemHeight <- merg_Veg$hc
-  merg_Veg$StemDiam <- merg_Veg$d
-  merg_Veg$StemDensty <- merg_Veg$N
+
+  if(length(Vegetation) != 1) {
+
+    if(class(Vegetation)[1] == "sf") {
+
+      merg_Veg <- Vegetation
+      merg_Veg$StemHeight <- merg_Veg$hc
+      merg_Veg$StemDiam <- merg_Veg$d
+      merg_Veg$StemDensty <- merg_Veg$N
+
+    }
+
+  } else {
+    merg_Veg <- NA
+  }
+
 
   wave_dat <- wave_data
 
@@ -420,8 +437,23 @@ CPBT <- function(
       total_wsl_adj = total_wsl_adj
     )
 
+    # Fix has
+    pdg("Set the hash to a valid transect.... ")
+    tselect <- unique(wave_dat$line_id)[1]
+    new <- paste0("        location.hash = '#profile=", tselect, "';")
+    html_file <- paste0(path_output, "SimulationResults.html")
+    htmltxt = readLines(html_file,-1)
+    htmltxt[48] = new
+    writeLines(htmltxt,html_file,-1, sep="\r\n")
+
 
   }
+
+
+
+
+
+
 
 
 }

@@ -21,14 +21,14 @@ that the chart datum and TopoBathy DEM are referenced to have 0 at low
 water. It is therefore suggested to set this value at the mean sea level
 above chart datum or a specific tidal elevation of interest.}
 
-\item{Ho}{Initial offshore wave height in meters.}
+\item{Ho}{Numeric. Initial offshore wave height in meters.}
 
-\item{To}{Initial offshore wave period in second.}
+\item{To}{Numeric. Initial offshore wave period in second.}
 
-\item{tran_force}{TRUE/FALSE should transect be forced even if there are
+\item{tran_force}{Boolean TRUE/FALSE. should transect be forced even if there are
 error codes.}
 
-\item{print_debug}{Turn on function debugging mode.}
+\item{print_debug}{Boolean TRUE/FALSE. Turn on function debugging mode.}
 }
 \value{
 An object of class sf and data.frame updated with wave data

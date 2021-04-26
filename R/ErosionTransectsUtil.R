@@ -14,7 +14,7 @@
 #' @param storm_duration Numeric. Storm duration in hours.
 #' @param Longshore Longshore distance in meters should match
 #' ShorelinePointDist used in samplePoints.
-#' @param PropValue Generaly land value in dollars per square meter of beach.
+#' @param PropValue Generally land value in dollars per square meter of beach.
 #' (not used if beach polygon property values are provided).
 #' @param Tr Numeric. Return period (frequency) of the simulated storm (in years).
 #' @param disc Annual valuation discount rate over the time horizon (0 - 1).

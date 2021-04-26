@@ -9,11 +9,11 @@
 #' that the chart datum and TopoBathy DEM are referenced to have 0 at low
 #' water. It is therefore suggested to set this value at the mean sea level
 #' above chart datum or a specific tidal elevation of interest.
-#' @param Ho Initial offshore wave height in meters.
-#' @param To Initial offshore wave period in second.
-#' @param tran_force TRUE/FALSE should transect be forced even if there are
+#' @param Ho Numeric. Initial offshore wave height in meters.
+#' @param To Numeric. Initial offshore wave period in second.
+#' @param tran_force Boolean TRUE/FALSE. should transect be forced even if there are
 #' error codes.
-#' @param print_debug Turn on function debugging mode.
+#' @param print_debug Boolean TRUE/FALSE. Turn on function debugging mode.
 #'
 #' @details Wave attenuation model originally developed by Dr. Greg Guannel
 #' for the Coastal Natural Capital InVEST project. This function models wave

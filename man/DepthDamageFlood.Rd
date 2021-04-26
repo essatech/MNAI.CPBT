@@ -24,7 +24,7 @@ structures flooded, the mean flood depth and the total damage cost. Values
 are provided for scenarios with submerged vegetation and without submerged
 vegetation.
 #' \describe{
-  \item{nStructure}{Nummber of structures flooded.}
+  \item{nStructure}{Number of structures flooded.}
   \item{MedianDepth}{Median depth of flooded structure.}
   \item{MaxDepth}{Maximum flood depth across all structures.}
   \item{Damage}{Total flood structural damage cost in dollars.}

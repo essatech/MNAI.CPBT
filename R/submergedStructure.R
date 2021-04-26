@@ -14,7 +14,7 @@
 #' @param Bwidth Base width (m) at the bottom of the submerged structure.
 #'
 #' @return The final wave height after passing over a submerged structure
-#' reported as a fraction (0 to 1) or the original wave height.
+#' is reported as a fraction (0 to 1) or the original wave height.
 #' @examples
 #' pfinal <- submergedStructure(Hi = 2.5, To = 7, hi = 6, hc = 3, Cwidth = 2,
 #' Bwidth = 5)

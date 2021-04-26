@@ -70,7 +70,7 @@ CPBT(
 
 \item{Coastline}{Linestring of class sf and dataframe. Coastline spatial
 line segment for modeling. The coastline should roughly trace the water
-edge along the beach at the mean sea level. It is recommended to keep}
+edge along the beach at the mean sea level. It is recommended to keep the coastline geometry simple and avoid sharp corners.}
 
 \item{ShorelinePointDist}{Numeric. Spacing between cross-shore profile lines (meters).
 Note that it is recommended to keep this number as large as possible for

@@ -24,7 +24,7 @@ structure.}
 }
 \value{
 The final wave height after passing over a submerged structure
-reported as a fraction (0 to 1) or the original wave height.
+is reported as a fraction (0 to 1) or the original wave height.
 }
 \description{
 Estimates the reduction in wave height as a wave passes over a

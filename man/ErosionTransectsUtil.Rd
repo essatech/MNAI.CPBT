@@ -38,7 +38,7 @@ water. It is recommended that the erosion model is run with mean sea level.}
 \item{Longshore}{Longshore distance in meters should match
 ShorelinePointDist used in samplePoints.}
 
-\item{PropValue}{Generaly land value in dollars per square meter of beach.
+\item{PropValue}{Generally land value in dollars per square meter of beach.
 (not used if beach polygon property values are provided).}
 
 \item{Tr}{Numeric. Return period (frequency) of the simulated storm (in years).}

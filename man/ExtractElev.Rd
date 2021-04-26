@@ -37,7 +37,7 @@ plot(sf::st_geometry(cross_shore_profiles), add=TRUE)
 # Extract elevation along each profile
 rpath <-  system.file("extdata", "TopoBathy.tif", package = "MNAI.CPBT")
 TopoBathy <- raster::raster(rpath)
-pt_elevs <- ExtractElev(cross_shore_profiles, 1, TopoBathy)
+pt_elevs <- ExtractElev(cross_shore_profiles, TopoBathy)
 plot(pt_elevs['elev'])
 # plot(TopoBathy)
 }

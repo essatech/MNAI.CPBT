@@ -85,6 +85,7 @@
 #'
 #'
 #' }
+#' @export
 FloodContours <- function(
   TopoBathy = NA,
   mean_high_water = NA,
@@ -109,6 +110,8 @@ FloodContours <- function(
   countour_static <- raster::rasterToContour(r, maxpixels=5000000, level=lv)
   cs <- sf::st_as_sf(countour_static)
 
+  cs$name <- c("LowTide", "HighTide", "StaticWL")
+  cs$level <- NULL
 
   #=======================================================
   # Interpolate runup heights
@@ -158,7 +161,21 @@ FloodContours <- function(
   # save raster for later
   depth_noveg_raster <- r_runup
 
-  countour_runup_noveg <- raster::rasterToContour(r_runup, maxpixels=5000000, level=0)
+  mmin <- raster::minValue(r_runup)
+  mmax <- raster::maxValue(r_runup)
+
+  if(mmax > 0 & mmin < 0){
+    countour_runup_noveg <- raster::rasterToContour(r_runup, maxpixels=5000000, level=0)
+    csnv <- sf::st_as_sf(countour_runup_noveg)
+    csnv$name <- "RunUpNoVeg"
+    csnv$level <- NULL
+    cs <- rbind(cs, csnv) #csnv
+
+  } else {
+    #diff <- (mmax - mmin)/2 + mmin
+    print("No contour non-veg")
+  }
+
 
 
   #======================================================
@@ -175,33 +192,33 @@ FloodContours <- function(
   # save raster for later
   depth_veg_raster <- r_runup
   # Calc contour
-  countour_runup_veg <- raster::rasterToContour(r_runup, maxpixels=5000000, level=0)
+  # countour_runup_veg <- raster::rasterToContour(r_runup, maxpixels=5000000, level=0)
+
+  mmin <- raster::minValue(r_runup)
+  mmax <- raster::maxValue(r_runup)
+
+  if(mmax > 0 & mmin < 0){
+    countour_runup_veg <- raster::rasterToContour(r_runup, maxpixels=5000000, level=0)
+
+    csv <- sf::st_as_sf(countour_runup_veg)
+    csv$name <- "RunUpVeg"
+    csv$level <- NULL
+    cs <- rbind(cs, csv)
+
+  } else {
+    # diff <- (mmax - mmin)/2 + mmin
+    print("No Veg Contour")
+  }
+
 
   # mapview(countour_runup_noveg) + mapview(countour_runup_veg)
-
-
-
-
-
 
   #=======================================================
   # Add all contours togehter
   #=======================================================
 
-  cs$name <- c("LowTide", "HighTide", "StaticWL")
-  cs$level <- NULL
 
-
-  csnv <- sf::st_as_sf(countour_runup_noveg)
-  csv <- sf::st_as_sf(countour_runup_veg)
-  csnv$name <- "RunUpNoVeg"
-  csv$name <- "RunUpVeg"
-  csnv$level <- NULL
-  csv$level <- NULL
-
-
-  cs1 <- rbind(cs, csv) # csv
-  cs2 <- rbind(cs1, csnv) #csnv
+  cs2 <- cs
 
 
 
@@ -227,7 +244,7 @@ FloodContours <- function(
   cs_final  <- do.call("rbind", merge_out)
 
 
-  #cs_final_clip <- st_crop(cs_final, st_bbox(erosion))
+  # cs_final_clip <- st_crop(cs_final, st_bbox(erosion))
   # mapview(cs_final)
 
 

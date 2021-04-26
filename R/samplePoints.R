@@ -3,10 +3,10 @@
 #' @description Sample points along the coastline at specified intervals.
 #'
 #' @param Coastline Coastline LINESTRING of class sf and data.frame.
-#' @param ShorelinePointDist Spacing between cross-shore profile lines (meters).
+#' @param ShorelinePointDist Numeric. Spacing between cross-shore profile lines (meters).
 #'  Note that it is recommended to keep this number as large as possible for
 #'  your area of interest to speed up processing time.
-#' @param BufferDist Buffer search distance (meters) used to identify
+#' @param BufferDist Numeric. Buffer search distance (meters) used to identify
 #' the perpendicular angle of each cross-shore profile line from the coastline.
 #' @param RadLineDist Numeric. Radial line distance (kilometers) of the cross-shore profiles. This value determines how for offshore (and onshore) the cross-shore profiles should extend (recommended values are 1 - 3 km).
 #'

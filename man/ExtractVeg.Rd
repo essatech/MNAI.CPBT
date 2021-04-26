@@ -17,7 +17,7 @@ Patch attributes must include
   \item{N}{Numeric, Shoot density as number of shoots per meter squared.}
   \item{d}{Numeric, Blade width in meters.}
   \item{Type}{Either 'Eelgrass', 'Kelp' or 'Marsh'.}
-  \item{Cd}{Numeric, Drag coefficent as per Guannel et al 2015. 
+  \item{Cd}{Numeric, Drag coefficent as per Guannel et al 2015.
   If unsure use a value of 0.1 for Eelgrass}
 }}
 }
