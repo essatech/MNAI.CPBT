@@ -164,7 +164,7 @@ dev.off()
 
 ```
 
-<img src='man/figures/wm.png' align="center" height="550" style="padding: 10px;"/>
+<img src='man/figures/wm.PNG' align="center" height="550" style="padding: 10px;"/>
 
 ### Erosion Model
 
