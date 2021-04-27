@@ -28,7 +28,7 @@ Description: Contains functions to model coastal wave attenuation,
     Natural Capital InVEST Wave Attenuation and Erosion Reduction ArcGIS
     Toolbox originally developed by Greg Guannel. Functions and workflows
     have been modified for evaluating municipal natural assets along
-    coastlines in Canada.
+    coastlines in  Canada.
 License: MIT + file LICENSE
 URL: https://github.com/mattjbayly/MNAI.CPBT
 BugReports: https://github.com/mattjbayly/MNAI.CPBT/issues
