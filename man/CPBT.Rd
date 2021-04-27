@@ -60,7 +60,8 @@ CPBT(
   disc = 0.05,
   TimeHoriz = 100,
   Bldgs = NA,
-  export_report = FALSE
+  export_report = FALSE,
+  export_spatial_dat = FALSE
 )
 }
 \arguments{
@@ -135,6 +136,8 @@ Typically 100-year horizons are used.}
 See data(Bldgs) for an example input format.}
 
 \item{export_report}{Boolean for debugging. Keep set at TRUE.}
+
+\item{export_spatial_dat}{Boolean (TRUE FALSE) should spatial data be exported for report.}
 }
 \value{
 Export a html output report folder to a local directory with the

@@ -8,7 +8,8 @@ ExportJSONContent <- function(
   wave_dat = NA,
   dat = NA,
   ero_tot = NA,
-  total_wsl_adj = NA
+  total_wsl_adj = NA,
+  export_spatial_dat = FALSE
 ) {
 
 
@@ -59,6 +60,13 @@ ExportJSONContent <- function(
                  exp_obj = in_obj_t_sp)
 
 
+  if(export_spatial_dat){
+    sf::st_write(in_obj_t,
+                 dsn = paste0(path_output, 'www/data/flood.shp'),
+                 delete_dsn = TRUE)
+  }
+
+
   #============================================
   # Export vegetation layer to JSON
   #============================================
@@ -84,6 +92,7 @@ ExportJSONContent <- function(
     )
 
     BuildjsJSONobj(out_fname = out_fname, layer_name='veg', exp_obj = in_obj_t_sp)
+
 
   } else {
 
@@ -124,6 +133,26 @@ ExportJSONContent <- function(
 
     # Wave transect
     this_transect = wave_dat[which(wave_dat$line_id == this_id),]
+
+
+    # Export transect as csv
+    if(export_spatial_dat){
+      tfull = dat[which(dat$line_id == this_id),]
+      tcsv <- tfull
+      tcsv <- sf::st_transform(tcsv, 4326)
+      coord <- sf::st_coordinates(tcsv)
+      sf::st_geometry(tcsv) <- NULL
+      tcsv$latitude <- coord[,2]
+      tcsv$longitude <- coord[,1]
+
+      out_fname <- paste0(path_output,
+                          'www/data/profile_csv/profile_',this_id,'.csv'
+      )
+
+      utils::write.csv(tcsv, file = out_fname, row.names = FALSE)
+
+    }
+
 
     # Export transect erosion data
     tran_e <- ero_tot[[1]]

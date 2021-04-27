@@ -75,6 +75,7 @@
 #' for each structure in dollars (VAL).}
 #' }
 #' @param export_report Boolean for debugging. Keep set at TRUE.
+#' @param export_spatial_dat Boolean (TRUE FALSE) should spatial data be exported for report.
 #'
 #'
 #' @return Export a html output report folder to a local directory with the
@@ -149,7 +150,8 @@ CPBT <- function(
   disc = 0.05,
   TimeHoriz = 100,
   Bldgs = NA,
-  export_report = FALSE
+  export_report = FALSE,
+  export_spatial_dat = FALSE
 ) {
 
 
@@ -437,7 +439,8 @@ CPBT <- function(
       wave_dat = wave_dat,
       dat = dat,
       ero_tot = ero_tot,
-      total_wsl_adj = total_wsl_adj
+      total_wsl_adj = total_wsl_adj,
+      export_spatial_dat = export_spatial_dat
     )
 
     # Fix has
