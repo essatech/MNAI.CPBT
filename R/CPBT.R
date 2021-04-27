@@ -65,7 +65,6 @@
 #' @param disc Annual valuation discount rate over the time horizon (0 - 1).
 #' @param TimeHoriz Time horizon (in years) for long term cumulative valuation given a storm return frequency.
 #' Typically 100-year horizons are used.
-
 #' @param Bldgs Spatial polygon of building footprints of class sf and dataframe.
 #'  See data(Bldgs) for an example input format.
 #' @format Building footprint attribute fields must include columns:
@@ -212,6 +211,9 @@ CPBT <- function(
 
   # Generate cross-shore profile lines along the coastline.
   pdg("Generate profiles...")
+  pdg(nrow(Coastline))
+  pdg(class(Coastline))
+
   crossshore_profiles <- samplePoints(
      Coastline = Coastline,
      ShorelinePointDist = ShorelinePointDist,
@@ -219,6 +221,7 @@ CPBT <- function(
   )
 
   # Get the lines
+  pdg("Get lines...")
   crossshore_lines <- crossshore_profiles[[2]]
 
   # Extract elevation values along each profile
@@ -423,8 +426,8 @@ CPBT <- function(
   #=========================================
   # Run JSON export
 
-
   pdg("ExportJSONContent...")
+
   if(export_report){
 
     ExportJSONContent(

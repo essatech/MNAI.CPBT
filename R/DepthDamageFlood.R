@@ -212,6 +212,13 @@ DepthDamageFlood <- function(
     cv <- bld_v[which(bld_v$uid == tcode),]
     c_ddc <- ddc[which(ddc$uid == tcode),]
 
+    if(nrow(c_ddc) == 0){
+      print("HAZUS CODE NOT FOUND:")
+      print(paste0("Could not find HAZUS code: ", tcode))
+      stop("Bad HAZUS code check code names and try again...")
+
+    }
+
 
     # Veg-Damage
     dmg_est_v <- stats::approx(x=c_ddc$depth_m,

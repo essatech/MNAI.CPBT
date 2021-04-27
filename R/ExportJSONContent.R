@@ -1,5 +1,6 @@
 #' Exports JSON content
 #' @keywords internal
+#' @export
 ExportJSONContent <- function(
   path_output = NA,
   flood_contour = NA,
@@ -71,6 +72,8 @@ ExportJSONContent <- function(
 
     # Ensure no empty geometries
     in_obj_t <- in_obj_t[!(sf::st_is_empty(in_obj_t)),]
+
+    in_obj_t <- sf::st_zm(in_obj_t)
 
 
     # Convert to sp object
