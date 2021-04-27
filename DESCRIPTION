@@ -39,6 +39,7 @@ Imports:
     e1071,
     geosphere,
     graphics,
+    grDevices,
     gstat,
     jsonlite,
     methods,
