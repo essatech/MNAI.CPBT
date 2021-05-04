@@ -215,6 +215,12 @@ CPBT <- function(
   pdg("Generate profiles...")
   pdg(nrow(Coastline))
   pdg(class(Coastline))
+  print(sf::st_length(Coastline))
+  print(sf::st_geometry_type(Coastline))
+  print(ShorelinePointDist)
+  print(BufferDist)
+  print(RadLineDist)
+
 
   crossshore_profiles <- samplePoints(
      Coastline = Coastline,
