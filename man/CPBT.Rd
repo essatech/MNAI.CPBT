@@ -36,6 +36,7 @@ for each structure in dollars (VAL).}
 \usage{
 CPBT(
   simulation_name = "My Simulation",
+  Scenario_Description = NA,
   dir_output = getwd(),
   Coastline = NA,
   ShorelinePointDist = 200,
@@ -66,6 +67,8 @@ CPBT(
 }
 \arguments{
 \item{simulation_name}{Simulation name for current storm and conditions.}
+
+\item{Scenario_Description}{A qualitative description of the scenario.}
 
 \item{dir_output}{Local output directory for CPBT simulation results.}
 

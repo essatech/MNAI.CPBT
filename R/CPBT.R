@@ -5,6 +5,7 @@
 #'
 #' @param simulation_name Simulation name for current storm and conditions.
 #' @param dir_output Local output directory for CPBT simulation results.
+#' @param Scenario_Description A qualitative description of the scenario.
 #' @param Coastline Linestring of class sf and dataframe. Coastline spatial
 #' line segment for modeling. The coastline should roughly trace the water
 #' edge along the beach at the mean sea level. It is recommended to keep the coastline geometry simple and avoid sharp corners.
@@ -126,6 +127,7 @@
 #' @export
 CPBT <- function(
   simulation_name = "My Simulation",
+  Scenario_Description = NA,
   dir_output = getwd(),
   Coastline = NA,
   ShorelinePointDist = 200,
@@ -167,6 +169,13 @@ CPBT <- function(
   #=====================================================
   # Prep OUTPUT FOLDER
   #=====================================================
+
+  # If no description is supplied use name
+
+  if(is.na(Scenario_Description)) {
+    Scenario_Description <- simulation_name
+  }
+
 
 
   # Create Output Directory
@@ -375,7 +384,7 @@ CPBT <- function(
   ero_tot[["VegDamage"]] <- round(dd_flood$VegDamage, 0)
 
   ero_tot[["FloodLTDamageVeg"]] <- round(dd_flood$VegDamage_longterm , 0)
-  ero_tot[["FloodLTDamageNoVeg"]] <- round(dd_flood$NoVegDamage_longterm, 0)
+  ero_tot[["Scenario_Description"]] <- Scenario_Description
 
   # Single storm damage totals erosion
 
@@ -395,6 +404,7 @@ CPBT <- function(
   ero_tot[["mean_high_water"]] <- mean_high_water
   ero_tot[["sea_level_rise"]] <- sea_level_rise
   ero_tot[["tide_during_storm"]] <- tide_during_storm
+  ero_tot[["total_wsl_adj"]] <- total_wsl_adj
   ero_tot[["total_wsl_adj"]] <- total_wsl_adj
 
   # Add on transect dune parameters
