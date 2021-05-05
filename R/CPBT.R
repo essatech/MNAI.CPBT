@@ -384,6 +384,7 @@ CPBT <- function(
   ero_tot[["VegDamage"]] <- round(dd_flood$VegDamage, 0)
 
   ero_tot[["FloodLTDamageVeg"]] <- round(dd_flood$VegDamage_longterm , 0)
+  ero_tot[["FloodLTDamageNoVeg"]] <- round(dd_flood$NoVegDamage_longterm, 0)
   ero_tot[["Scenario_Description"]] <- Scenario_Description
 
   # Single storm damage totals erosion
