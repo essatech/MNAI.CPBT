@@ -186,30 +186,9 @@
 
   <p class="descriptive-text">
 
-    <b>Storm Simulation: </b>This simulation was generated with offshore wave heights (Ho) of <span class="Ho">###</span> m with a wave period (To) of <span class="To">###</span> seconds. The storm occurred at a tidal elevation of <span class="tide_during_stormFULL">###</span> and lasted <span class="storm_duration">###</span> hours. This storm is equivalent to a 1 in <span class="Tr">###</span> year storm event (Tr).
-
+    <b>Storm Simulation: </b>This simulation was generated using storm characteristics set by you in Coastal Protection Benifit Toolbox. The settings you applied include: an offshore wave height (Ho) of <span class="Ho">###</span> meters with a wave period (To) of <span class="To">###</span> seconds; a tidal elevation of <span class="tide_during_stormFULL">###</span>; a storm duration of <span class="storm_duration">###</span> hours; and a storm return period (Tr) of 1 in <span class="Tr">###</span> years. You also supplied a Sea-level Rise estimate of <span class="sea_level_rise">###</span> m, and a Storm Surge elevation of <span class="surge_elevation">###</span> m. The total still water level was <span class="total_wsl_adj">###</span> m before accounting for local wave runup.
+	
   </p>
-
-
-
-  <p class="descriptive-text">
-
-    <b>Static Water Level (Flooding): </b>Flooding extent is determined by the still water level and any additional location-specific wave runup. In this simulation the still water level is the sum of the following components (referenced to Mean Lower Low Water - Chart Datum):
-
-    <ul class="descriptive-text">
-
-      <li>Tidal Elevation: <span class="tide_during_storm">###</span> m</li>
-
-      <li>Storm Surge: <span class="surge_elevation">###</span> m</li>
-
-      <li>Sea-Level Rise: <span class="sea_level_rise">###</span> m</li>
-
-      <li><b>Total Still Water Level: <span class="total_wsl_adj">###</span> m</b></li>
-
-    </ul>  
-
-  </p>
-
 
 
   <br>
@@ -226,7 +205,8 @@
 
     <p class="descriptive-text"><b>Scenario Description: <span class="Scenario_Description">This is the scenario description</span></b></p>
 
-    <p class="descriptive-text">The following section represents natural assets modelled for the current storm simulation. Note that the parameters listed below are for the current cross-shore profile. To switch to a different cross-shore profile click on another line on the leaflet map below.</p>
+    <p class="descriptive-text">
+	The management scenario you designed is based on both the input data you provided and the parameter settings you applied in ArcGIS Pro. The Scenario Description above was supplied by you in ArcGIS Pro and should articulate in plain language the management scenario your input data and parameter settings are meant to represent. For convenience, in the table below, you will find the foreshore characteristics for the profile that is currently selected in the Overview Map (see map below). These characteristics are based on both parameter settings and input data supplied by you and will therefore differ at each profile location. To switch to a different cross-shore profile, click on an alternate profile in the Overview Map (profiles are the lines perpendicular to the coastline). The foreshore parameter data in this table will update if there are differences.</p>
 
     <b>Foreshore Parameters: Current Profile</b>
 
@@ -280,14 +260,18 @@
 
   <p class="descriptive-text">
 
-    <b>Overview:</b> Shoreline erosion is calculated individually for each transect and then total erosion estimates along the coastline is estimated by summarizing values across all cross-shore profiles. Local erosion at each cross-shore profile locations may vary due to beach and foreshore parameters and offshore wave attenuation. In this section erosion is reported for the across the entire coastline section (first table) and then for the current profile (second table). Click on another cross-shore profile in the map below to view results for a different profile.
+    <b>Overview:</b> 
+	
+	Shoreline erosion is calculated individually for each profile and then a total erosion estimate along the full coastline is interpolated by summarizing values across all cross-shore profiles. Local erosion at each profile may vary due to beach and foreshore parameters and offshore wave attenuation. In the tables below, erosion is reported first for the entire coastline and then, in the second table, for the currently selected profile. Click on another cross-shore profile in the Overview Map below to view results for a different individual profile. Full coastline results are derived by interpolating and summarizing values across all cross-shore profiles along your coastline section.
 
   </p>
 
 
   <p class="descriptive-text">
 
-    <b>Details:</b> The erosion summary tables provides estimates of erosion at the current profile and along the entire coastline (summarized between profiles). Given the foreshore parameters at the current profile and offshore wave conditions, the wave runup and lateral beach retreat distances can be calculated. These are coarse-scale estimates but provide some indication of potential beach retreat following a storm. From these values we can then estimate the area of beach lost by multiplying the beach retreat distance by the longshore extent between profiles. We can also estimate the volume of beach loss if we assume the berm height to be equivalent to the depth of erosion. The erosion damage estimate is simply a product of the area lost (m2) multiplied by the beach property value ($/m2). 
+    <b>Details:</b> 
+	
+	For each profile, wave runup and lateral beach retreat distances are calculated using the supplied foreshore parameters at the profile location and offshore wave conditions. Using these outputs, the area (m2) of beach lost is calculated by multiplying the lateral beach retreat distance by the longshore (see Glossary in User Guide) extent between profiles. The volume (m3) of beach lost is calculated by multiplying the berm height by the retreat distance and longshore exent. Erosion damage estimates ($) are calculated by multiplying the area of beach lost by the beach property value ($/m2). These estimates are coarse but provide some indication of potential beach retreat following a storm that is useful for relative comparisons with other scenarios.
 
   </p>
 
@@ -357,7 +341,7 @@
   <hr>
   <div class="descriptive-text">
 
-    <b>Supplementary erosion results for specific cross-shore profile</b>
+    <b>Supplementary erosion results for the currently selected profile (change via Overview Map)</b>
 
     <table class="tableleft etable">
 
@@ -432,16 +416,16 @@
 
     <p class="descriptive-text">
 
-      <b>Overview: </b>The MNAI CPBT estimates flooding from the combination of still water level and local wave runup. The still water level is the combination of the tidal water level during the storm (<span class="tide_during_storm"></span> m), the storm surge elevation (<span class="surge_elevation"></span> m) and any sea level rise (<span class="sea_level_rise"></span> m). Under the simulated conditions the total still water level of this storm reached <span class="total_wsl_adj"></span> m. In some areas the flood water level is then further increased by local wave runup – the vertical extent of wave onto a beach or structure above the still water level.
-
+      <b>Overview: </b>The MNAI CPBT estimates flooding from the sum of still water level and local wave runup. The still water level is the sum of the tidal water level during the storm (<span class="tide_during_storm"></span> m), the storm surge elevation (<span class="surge_elevation"></span> m) and any sea level rise (<span class="sea_level_rise"></span> m). Under the simulated conditions the total still water level of this storm reached <span class="total_wsl_adj"></span> m. In some areas the flood water level is may be further increased by local wave runup – the vertical extent of wave onto a beach or structure above the still water level. Local wave runup will vary for each profile since it is a product of the beach and foreshore parameters.
     </p>
 
-    <p class="descriptive-text">Structural damage estimates for flooding are generated by running zonal statistics on each structure to calculate the flood water depth. Then a damage estimate is assigned to each structure as a portion of the replacement cost given an underlying depth-damage curve. The following table summarizes these damage costs and flood statistics for the simulated storm.</p>
+    <p class="descriptive-text">
+	
+	Damages to buildings, or structural damages, are calculated using depth-damage estimates to make a proportional adjustment to the building values. Building values were originally assigned by you as part of the building footprint input data (see User Guide). The flood water depth at each building is first calculated, then the value of the building is multiplied by the corresponding depth-damage proportion (%) using, for example, depth damage curves from the documentation for USACE HAZUS model. For each building, the proportionally adjusted value represents the replacement cost of flood damages, which are then added up across all affected structures in the study area. Based on the storm return period of <span class="Tr">###</span> years (Tr), which you specified, the present value of damage costs is calculated over <span class="TimeHoriz">###</span>-years at an annual discount rate of <span class="disc">###</span>.
 
-    <p class="descriptive-text">Based on a storm return period of <span class="Tr"></span> years (Tr) we can estimate the long-term cumulative damage costs over a long term time horizon of <span class="TimeHoriz"></span> years. Note that in this example we provide an annual discount rate of <span class="disc"></span>.</p>
+	</p>
 
-
-
+ 
 
   
 
@@ -537,7 +521,9 @@
 
   <p class="descriptive-text">
 
-      <b>Overview:</b> The following plots show the current cross-shore profile. The first two plots show wave height attenuation along the length of the profile. The red line in the first plot shows the wave attenuation in the absence of any submerged vegetation such as eelgrass, kelp, or marsh. The green line in the second plot shows the wave attenuation with the presence of submerged vegetation (if any). Note that if the cross-shore profile did not intersect any submerged vegetation then the wave height between both plots (green and red) will appear identical. The third plot show the cross-shore elevation profile (m, Chart Datum) and the final plot shows the location of submerged vegetation as vegetation height.
+      <b>Wave Attenuation:</b> 
+	  
+	  The following plots communicate wave attenuation results caused by nearshore vegetation (if supplied as input data - optional). These results will not change if there are no vegetation data provided by you as part of this scenario or if the vegetation were ineffective against the simulated storm. The first two plots compare wave attenuation with and without vegetation (e.g., eelgrass, kelp, marsh), the third plot shows the cross-shore elevation profile (m, Chart Datum), and the final plot shows the location of submerged vegetation as vegetation height (m).
 
   </p>
 
