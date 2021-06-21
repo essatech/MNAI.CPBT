@@ -29,7 +29,7 @@ LinkProfilesToBeaches <- function(
   # build output
   output <- list()
 
-  for(i in seq_len(length(uids))){
+  for(i in 1:length(uids)){
 
     this_id <- uids[i]
     df <- dat[which(dat$line_id == this_id),]
@@ -47,6 +47,35 @@ LinkProfilesToBeaches <- function(
 
     ls <- sf::st_transform(ls, sf::st_crs(fs))
     myint <- suppressWarnings(sf::st_intersection(ls, fs))
+
+
+    # Look for close by beaches - may not have perfect overlap
+    if (nrow(myint) == 0) {
+      # Fidn the closest beach
+      mydist <- suppressWarnings(sf::st_distance(ls, fs))
+      ind <- which(mydist == min(mydist, na.rm = TRUE))
+      ind <- ind[1]
+      dist <- as.numeric(mydist[ind])
+      # If it is within 200 meters then join
+      if(dist < 200) {
+        close <- fs[ind, ]
+        add_row <- data.frame(line_id = this_id,
+                              sed_size = close$sed_size,
+                              berm_lengt = close$berm_lengt,
+                              berm_heigh = close$berm_heigh,
+                              dune_heigh = close$dune_heigh,
+                              fore_slp = close$fore_slp)
+        output[[i]] <- add_row
+        next
+      }
+    }
+
+
+
+
+
+
+    # If still no neighboring beaches then take median
 
     if (nrow(myint) == 0) {
 
