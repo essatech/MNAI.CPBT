@@ -30,7 +30,7 @@ Use the following commands to install the package. Note that you may need to ins
   library(remotes)
   
   # Install the CPBT
-  remotes::install_github("mattjbayly/MNAI.CPBT")
+  remotes::install_github("essatech/MNAI.CPBT")
   library(MNAI.CPBT)
 
 ```
@@ -38,7 +38,7 @@ Use the following commands to install the package. Note that you may need to ins
 
 ## Usage
 
-The general workflow includes generating cross-shore profiles along a coastline section, running the wave attenuation model and then estimating beach erosion and structural damages from flood waters.  This repository is referenced by an [ArcGIS toolbox for non-programmers](https://github.com/mattjbayly/CPBT.ArcGIS.Tbx).
+The general workflow includes generating cross-shore profiles along a coastline section, running the wave attenuation model and then estimating beach erosion and structural damages from flood waters.  This repository is referenced by an [ArcGIS toolbox for non-programmers](https://github.com/essatech/CPBT.ArcGIS.Tbx).
 
 ### Cross-shore profiles
 
