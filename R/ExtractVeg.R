@@ -68,10 +68,20 @@ if(length(Vegetation) != 1) {
 
   if(class(Vegetation)[1] == "sf") {
 
+    print("Processing veg...")
+
     # Fix veg column names
     Vegetation$StemHeight <- Vegetation$hc
     Vegetation$StemDensty <- Vegetation$N
     Vegetation$StemDiam <- Vegetation$d
+
+    # Aligning projections
+    print("Align projections...")
+    print(sf::st_crs(pt_exp)$epsg)
+    print(sf::st_crs(Vegetation)$epsg)
+
+    sf::st_crs(pt_exp) <- sf::st_crs(Vegetation)
+
 
     # Clip veg layers to project extent
     bbox <- sf::st_as_sfc(sf::st_bbox(pt_exp))
