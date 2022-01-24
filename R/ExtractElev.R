@@ -49,11 +49,16 @@ ExtractElev <- function(
   p1 <- sp::proj4string(r)
   p2 <- suppressWarnings(sp::proj4string(perp_lines_sp))
 
+  print("setup complete (1/2)...")
+
+
   # match spatial projection of raster
   if (p1 != p2) {
     # assume raster is more costly to transform
     perp_lines_sp <- sp::spTransform(perp_lines_sp, p1)
   }
+
+  print("setup complete (2/2)...")
 
 
   # list of all points and elevs

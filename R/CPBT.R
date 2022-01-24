@@ -243,6 +243,9 @@ CPBT <- function(
 
   # Extract elevation values along each profile
   pdg("ExtractElev...")
+  print(TopoBathy)
+  print(head(crossshore_lines))
+
   pt_elevs <- ExtractElev(crossshore_lines, TopoBathy)
 
 
