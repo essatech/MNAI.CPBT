@@ -166,6 +166,23 @@ CPBT <- function(
   pdg("Start function....")
 
 
+
+  #=====================================================
+  # Assign projection to raster if missing
+  #=====================================================
+  p1 <- sp::proj4string(TopoBathy)
+  # Set crs for raster if missing
+  if(is.na(p1)) {
+    print("Projection missing for raster...")
+    print("Assume CRS is the same as perp lines...")
+    temp_pt <- sf::as_Spatial(Coastline)
+    p2 <- suppressWarnings(sp::proj4string(temp_pt))
+    raster::crs(TopoBathy) <- p2
+    p1 <- sp::proj4string(TopoBathy)
+  }
+
+
+
   #=====================================================
   # Prep OUTPUT FOLDER
   #=====================================================

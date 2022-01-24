@@ -56,7 +56,6 @@ ExtractElev <- function(
     print("Assume CRS is the same as perp lines...")
     raster::crs(r) <- p2
     p1 <- sp::proj4string(r)
-
   }
 
 

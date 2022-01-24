@@ -101,7 +101,6 @@ FloodContours <- function(
   r <- TopoBathy
 
 
-
   # Level vector
   lv <- c(0, mean_high_water, total_wsl_adj)
   names(lv) <- c("LowTide", "HighTide", "StaticWaterLevel")
