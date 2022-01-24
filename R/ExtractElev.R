@@ -51,6 +51,12 @@ ExtractElev <- function(
 
   print("setup complete (1/2)...")
 
+  if(is.na(p1)) {
+    print("Projection missing for raster...")
+    print("Assume CRS is the same as perp lines...")
+    crs(r) <- p2
+  }
+
 
   # match spatial projection of raster
   if (p1 != p2) {
