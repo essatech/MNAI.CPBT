@@ -77,10 +77,8 @@ if(length(Vegetation) != 1) {
 
     # Aligning projections
     print("Align projections...")
-    print(sf::st_crs(pt_exp)$epsg)
-    print(sf::st_crs(Vegetation)$epsg)
-
-    sf::st_crs(pt_exp) <- sf::st_crs(Vegetation)
+    print(sf::st_crs(pt_exp))
+    print(sf::st_crs(Vegetation))
 
 
     # Clip veg layers to project extent

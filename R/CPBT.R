@@ -194,10 +194,7 @@ CPBT <- function(
   if(is.na(test_pj$epsg)) {
     sf::st_crs(Coastline) <-  sf::st_crs(temp_pt)
   }
-  test_pj <- sf::st_crs(Vegetation)
-  if(is.na(test_pj$epsg)) {
-    sf::st_crs(Vegetation) <-  sf::st_crs(temp_pt)
-  }
+
   if(!(is.na(trimline))) {
     test_pj <- sf::st_crs(trimline)
     if(is.na(test_pj$epsg)) {
@@ -205,11 +202,17 @@ CPBT <- function(
     }
     print(sf::st_crs(trimline)$epsg)
   }
+  if(!(is.na(Vegetation))) {
+    test_pj <- sf::st_crs(Vegetation)
+    if(is.na(test_pj$epsg)) {
+      sf::st_crs(Vegetation) <-  sf::st_crs(temp_pt)
+    }
+    print(sf::st_crs(Vegetation)$epsg)
+  }
 
   print("Check projections of all sf objects...")
   print(sf::st_crs(Coastline)$epsg)
   print(sf::st_crs(Bldgs)$epsg)
-  print(sf::st_crs(Vegetation)$epsg)
   print(sf::st_crs(Coastline)$epsg)
 
 
