@@ -119,9 +119,21 @@ CleanTransect <- function(
     # set pos and neg cross shore dist vals
     this_dat$Xpos <- NA
     this_dat$Xpos[1:mid] <- seq(-RadLineDist * 1000, -1)
-    this_dat$Xpos[(mid + 0):(nrow(this_dat))] <- seq(1, RadLineDist * 1000)
 
-    # plot(this_dat$Xpos, this_dat$elev, type='l', xlim = c(-50, 50))
+
+    # ADDED FIX
+    l1 <- length((mid + 0):(nrow(this_dat)))
+    l2 <- length(seq(1, RadLineDist * 1000))
+    if(l1 > l2) {
+      this_dat$Xpos[(mid + 0):((mid - 1) + (RadLineDist * 1000))] <- seq(1, RadLineDist * 1000)
+    } else {
+      # ORIGINAL
+      this_dat$Xpos[(mid + 0):(nrow(this_dat))] <- seq(1, RadLineDist * 1000)
+    }
+
+    # plot(this_dat$Xpos, this_dat$elev, type='l', xlim = c(-5000, 5000))
+    # plot(this_dat$Xpos, this_dat$elev, type='l', xlim = c(-10000, 10000))
+    # plot(1:nrow(this_dat), this_dat$elev, type='l')
     # abline(h = 0); abline(v = 0)
 
     # remove portions offshore that are shallower than average depth above
