@@ -47,6 +47,7 @@ CPBT(
   MaxOnshoreDist = 0.1,
   trimline = NA,
   Vegetation = NA,
+  mangrove = NULL,
   mean_high_water = 1.5,
   mean_sea_level = 0.5,
   tide_during_storm = 0.9,
@@ -106,6 +107,8 @@ or in instances where there is a back shore lagoon. A back shore trimline
 should be provided as a simple features line object.}
 
 \item{Vegetation}{A simple feature polygon of class sf and dataframe.}
+
+\item{mangrove}{Named numeric vector. Defaults to NULL. See details in `WaveModel`}
 
 \item{mean_high_water}{Mean high tidal water elevation above the chart datum.}
 

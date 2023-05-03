@@ -55,9 +55,6 @@ ExportProfiles <- function(
     dd2 <- dplyr::filter(dd1, abs(dd1$elev - max_elev) == min(abs(dd1$elev - max_elev)))
     ds1 <- dd2[, 'Xpos']
 
-    # ds1 <- dats %>% filter(elev > 0) %>%
-    #   filter(abs(elev - max_elev) == min(abs(elev - max_elev))) %>%
-    #   dplyr::select(Xpos)
 
     x_peak <- ds1$Xpos[1]
 

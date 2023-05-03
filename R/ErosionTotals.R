@@ -18,9 +18,16 @@ ErosionTotals <- function(
 ) {
 
   dat <- wave_data
+
   # Point on beach at shoreline
   # t1 <- dat[which(dat$Xpos == -1), ]
-  t1 <- dplyr::slice(dplyr::group_by(dat, dat$line_id), n=1)
+
+  # Update May 2 2023
+  t1_0 <- dplyr::group_by(dat, line_id)
+  t1 <- dplyr::filter(t1_0, dplyr::row_number() == 1)
+
+  # Old
+  # t1 <- dplyr::slice(dplyr::group_by(dat, ), n = 1)
 
   t2 <- merge(t1, erosion, by.x="line_id", by.y="transect_id")
 

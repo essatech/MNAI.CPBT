@@ -10,7 +10,8 @@ WaveModel(
   Ho = NA,
   To = NA,
   tran_force = FALSE,
-  print_debug = FALSE
+  print_debug = FALSE,
+  mangrove = NULL
 )
 }
 \arguments{
@@ -29,6 +30,21 @@ above chart datum or a specific tidal elevation of interest.}
 error codes.}
 
 \item{print_debug}{Boolean TRUE/FALSE. Turn on function debugging mode.}
+
+\item{mangrove}{Named numeric vector. Defaults to NULL. The mangrove object is
+a named numeric vector specifying mangrove attributes.
+`c("NRoots" = 130, "dRoots" = 0.1, "hRoots" = 1, "NCanop" = 100,
+"dCanop" = 0.5, "hCanop" = 3, "NTrunk" = 1.7,
+"dTrunk" = 0.4, "hTrunk" = 5, "Cd" = 1)`. If supplied these values
+will override vegetation attributes in the GIS data. the `mangrove`
+object can be left as NULL (default value)for seagrass, marsh etc., but
+if users are trying to simulate effects of mangroves a vector of mangrove
+attributes should be supplied here. GIS data can be populated with dummy
+values for height, diameter and density (e.g., 999). GIS should be
+supplied to mark mangrove coverage. For element naming in the vector
+NTrunk NRoots NCanop are densities (#/m2) for trunks, roots and canopy;
+dTrunk dRoots dCanop are diameter (m2) for trunks, roots and canopy;
+hTrunk hRoots hCanop are heights (m2) for trunks, roots and canopy.}
 }
 \value{
 An object of class sf and data.frame updated with wave data
@@ -113,6 +129,38 @@ plot(dsub$Xpos, dsub$H_noveg, type = 'l', xlab = "Cross-shore Distance (m)",
 ylab = "Wave Height (m)", main = "WAVE ATTENUATION")
 # Add on wave height with vegetation
 points(dsub$Xpos, dsub$H_veg, col="green", type = "l")
+
+# Show veg extent
+lsub <- dat_veg[dat_veg$line_id == 2, ]
+lsub <- lsub[!(is.na(lsub$StemHeight)), ]
+veg_col <- adjustcolor("green", alpha.f = 0.1)
+polygon(c(min(lsub$Xpos), min(lsub$Xpos),
+max(lsub$Xpos), max(lsub$Xpos), min(lsub$Xpos)),
+c(-9999, 9999, 9999, -9999, -9999), col = veg_col, border = NA)
+
+
+# Run Mangrove Example:
+mangrove <- c("NRoots" = 130, "dRoots" = 0.1, "hRoots" = 1,
+"NCanop" = 100, "dCanop" = 0.5, "hCanop" = 3, "NTrunk" = 1.7,
+"dTrunk" = 0.4, "hTrunk" = 5)
+
+wave_data <- WaveModel(dat = dat_veg,
+  total_wsl_adj = 1.5,
+  Ho = 2,
+  To = 8,
+  mangrove = mangrove # will override veg attributes
+)
+
+# Show minimal mangrove estimates
+mangrove_thin <- c("NRoots" = 5, "dRoots" = 0.05, "hRoots" = 0.1, "NCanop" = 5, "dCanop" = 0.02, "hCanop" = 0.2, "NTrunk" = 0.01, "dTrunk" = 0.07, "hTrunk" = 0.8)
+
+wave_data <- WaveModel(dat = dat_veg,
+  total_wsl_adj = 1.5,
+  Ho = 2,
+  To = 8,
+  mangrove = mangrove_thin # will override veg attributes
+)
+
 
 }
 }

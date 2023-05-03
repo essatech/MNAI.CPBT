@@ -14,6 +14,20 @@
 #' @param tran_force Boolean TRUE/FALSE. should transect be forced even if there are
 #' error codes.
 #' @param print_debug Boolean TRUE/FALSE. Turn on function debugging mode.
+#' @param mangrove Named numeric vector. Defaults to NULL. The mangrove object is
+#' a named numeric vector specifying mangrove attributes.
+#' `c("NRoots" = 130, "dRoots" = 0.1, "hRoots" = 1, "NCanop" = 100,
+#' "dCanop" = 0.5, "hCanop" = 3, "NTrunk" = 1.7,
+#' "dTrunk" = 0.4, "hTrunk" = 5, "Cd" = 1)`. If supplied these values
+#' will override vegetation attributes in the GIS data. the `mangrove`
+#' object can be left as NULL (default value)for seagrass, marsh etc., but
+#' if users are trying to simulate effects of mangroves a vector of mangrove
+#' attributes should be supplied here. GIS data can be populated with dummy
+#' values for height, diameter and density (e.g., 999). GIS should be
+#' supplied to mark mangrove coverage. For element naming in the vector
+#' NTrunk NRoots NCanop are densities (#/m2) for trunks, roots and canopy;
+#' dTrunk dRoots dCanop are diameter (m2) for trunks, roots and canopy;
+#' hTrunk hRoots hCanop are heights (m2) for trunks, roots and canopy.
 #'
 #' @details Wave attenuation model originally developed by Dr. Greg Guannel
 #' for the Coastal Natural Capital InVEST project. This function models wave
@@ -99,6 +113,38 @@
 #' # Add on wave height with vegetation
 #' points(dsub$Xpos, dsub$H_veg, col="green", type = "l")
 #'
+#' # Show veg extent
+#' lsub <- dat_veg[dat_veg$line_id == 2, ]
+#' lsub <- lsub[!(is.na(lsub$StemHeight)), ]
+#' veg_col <- adjustcolor("green", alpha.f = 0.1)
+#' polygon(c(min(lsub$Xpos), min(lsub$Xpos),
+#' max(lsub$Xpos), max(lsub$Xpos), min(lsub$Xpos)),
+#'c(-9999, 9999, 9999, -9999, -9999), col = veg_col, border = NA)
+#'
+#'
+#' # Run Mangrove Example:
+#' mangrove <- c("NRoots" = 130, "dRoots" = 0.1, "hRoots" = 1,
+#' "NCanop" = 100, "dCanop" = 0.5, "hCanop" = 3, "NTrunk" = 1.7,
+#' "dTrunk" = 0.4, "hTrunk" = 5)
+#'
+#' wave_data <- WaveModel(dat = dat_veg,
+#'   total_wsl_adj = 1.5,
+#'   Ho = 2,
+#'   To = 8,
+#'   mangrove = mangrove # will override veg attributes
+#' )
+#'
+#' # Show minimal mangrove estimates
+#' mangrove_thin <- c("NRoots" = 5, "dRoots" = 0.05, "hRoots" = 0.1, "NCanop" = 5, "dCanop" = 0.02, "hCanop" = 0.2, "NTrunk" = 0.01, "dTrunk" = 0.07, "hTrunk" = 0.8)
+#'
+#' wave_data <- WaveModel(dat = dat_veg,
+#'   total_wsl_adj = 1.5,
+#'   Ho = 2,
+#'   To = 8,
+#'   mangrove = mangrove_thin # will override veg attributes
+#' )
+#'
+#'
 #' }
 #' @export
 WaveModel <- function(
@@ -107,7 +153,8 @@ WaveModel <- function(
   Ho = NA,
   To = NA,
   tran_force = FALSE,
-  print_debug = FALSE
+  print_debug = FALSE,
+  mangrove = NULL
 ) {
 
   math.pi <- pi
@@ -234,9 +281,10 @@ WaveModel <- function(
     this_transect <- this_transect[keep,]
 
     # depth is now positive
-    height_array <- -1*height_array
+    height_array <- -1 * height_array
     this_transect$height_array <- height_array
-    #plot(this_transect$height_array, type='l')
+
+    # plot(this_transect$height_array, type='l')
 
     # reverse order if profile starts at onshore
     height_array <- rev(height_array)
@@ -390,6 +438,35 @@ WaveModel <- function(
     dCanop <- rep(0, nrow(this_transect))
     hCanop <- rep(0, nrow(this_transect))
 
+
+    # -----------------------------------------
+    # Update canopy and root data if mangrove
+    # data available
+    if(!(is.null(mangrove))) {
+
+      # Mark veg patches
+      veg_pres <- this_transect$Cd
+      veg_pres <- ifelse(is.na(veg_pres), 0, 1)
+      veg_pres <- ifelse(NTrunk > 0, 1, veg_pres)
+      veg_pres <- ifelse(dTrunk > 0, 1, veg_pres)
+      veg_pres <- ifelse(hTrunk > 0, 1, veg_pres)
+
+      # Reset trunk attributes to zero (previous dummy values)
+      NTrunk <- ifelse(veg_pres == 1, mangrove["NTrunk"], 0)
+      dTrunk <- ifelse(veg_pres == 1, mangrove["dTrunk"], 0)
+      hTrunk <- ifelse(veg_pres == 1, mangrove["hTrunk"], 0)
+      NRoots <- ifelse(veg_pres == 1, mangrove["NRoots"], 0)
+      dRoots <- ifelse(veg_pres == 1, mangrove["dRoots"], 0)
+      hRoots <- ifelse(veg_pres == 1, mangrove["hRoots"], 0)
+      NCanop <- ifelse(veg_pres == 1, mangrove["NCanop"], 0)
+      dCanop <- ifelse(veg_pres == 1, mangrove["dCanop"], 0)
+      hCanop <- ifelse(veg_pres == 1, mangrove["hCanop"], 0)
+      print("Updating mangrove attributes...")
+    }
+
+
+
+
     lx <- length(X)
     dx <- 1 #abs(X[2] - X[1])
 
@@ -416,6 +493,18 @@ WaveModel <- function(
     CdVeg <- this_transect$Cd
     CdVeg <- ifelse(is.na(CdVeg), 0, CdVeg)
     unique(CdVeg)
+
+    # If mangrove vector supplied set to 1.0
+    if(!(is.null(mangrove))) {
+      print("Setting mangrove Cd to 1.0")
+      if(!(is.na(mangrove["Cd"]))) {
+        CdVeg <- ifelse(CdVeg != 0, mangrove["Cd"], 0)
+      } else {
+        CdVeg <- ifelse(CdVeg != 0, 1, 0)
+      }
+    }
+
+
     # Run after with signal smooth
     CdVeg <- SignalSmooth_smooth(x=CdVeg, window_len=length(CdVeg) * 0.01)
     #summary(CdVeg)
@@ -449,7 +538,8 @@ WaveModel <- function(
     ash <- h  # ash is same as h, but is now an independent variable
     fp <- 1.0 / To;
     sig <- 2.0 * math.pi * fp  # wave frequency and angular frequency
-    k[1] <- iterativek(sig, h[1])  # wave number at 1st grid pt
+    #  MJB edit revised: iterativek(sig, abs(height_array[0])) - python
+    k[1] <- iterativek(sig, abs(h[1]))  # wave number at 1st grid pt
     L[1] <- 2.0 * math.pi / k[1]  # wave length @ 1st grid pt
     n[1] <- 0.5 * (1 + (2.0 * k[1] * h[1] / math.sinh(2.0 * k[1] * h[1])))
     # to compute Cg at 1st grid pt
@@ -766,15 +856,20 @@ WaveModel <- function(
 
     # bottom velocity (with veg)
     Ubot <- math.pi * H / (To * math.sinh(k * h))
+    Ubots <- math.pi * Hs / (To * math.sinh(k * h))
 
-    #plot(Ubot, type='l')
+    # plot(Ubot, type='l')
+    # points(Ubots, type='l', col = 'red')
+    # plot(Ubots, type='l')
+
     printDebug("bottom velocity")
-
-
 
 
     H <- H * math.sqrt(2)
     Hs <- Hs * math.sqrt(2)
+
+    # plot(H, type='l')
+    # points(Hs, type='l', col = 'red')
 
     # Ds1=num.array(H); Ds2=num.array(Hs)
     Ds1 <- pracma::gradient(Ef, dx);
@@ -811,6 +906,7 @@ WaveModel <- function(
     # Etas = wave setup w/o veg.
     # Diss = wave dissipation,
     # Ubot =  bottom wave orbital velocity over the cross-shore domain
+    # Ubots =  bottom wave orbital velocity without vegetation
 
     printDebug("Finalizae format")
     # add other columns
@@ -818,6 +914,7 @@ WaveModel <- function(
     this_transect$Etas <- Etas
     #this_transect$Diss <- Diss
     this_transect$Ubot <- Ubot
+    this_transect$Ubots <- Ubots
 
     # bottom velocity (veg)
 

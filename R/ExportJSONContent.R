@@ -220,8 +220,13 @@ ExportJSONContent <- function(
       sf::st_geometry(obj) <- objG
       orig_tran <- obj
 
+      this_transect$Ubots <- NULL
+      orig_tran$Ubots <- NULL
+
       # Merge objects
       this_transect <- rbind(this_transect, orig_tran)
+
+
       #colnames(this_transect)
       #colnames(orig_tran)
 

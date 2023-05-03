@@ -32,6 +32,7 @@
 #' or in instances where there is a back shore lagoon. A back shore trimline
 #' should be provided as a simple features line object.
 #' @param Vegetation A simple feature polygon of class sf and dataframe.
+#' @param mangrove Named numeric vector. Defaults to NULL. See details in `WaveModel`
 #' @format Patch attributes must include.
 #' \describe{
 #'   \item{hc}{Numeric, Blade height in meters}
@@ -138,6 +139,7 @@ CPBT <- function(
   MaxOnshoreDist = 0.1,
   trimline = NA,
   Vegetation = NA,
+  mangrove = NULL,
   mean_high_water = 1.5,
   mean_sea_level = 0.5,
   tide_during_storm = 0.9,
@@ -202,13 +204,17 @@ CPBT <- function(
     }
     print(sf::st_crs(trimline)$epsg)
   }
-  if(!(is.na(Vegetation))) {
-    test_pj <- sf::st_crs(Vegetation)
-    if(is.na(test_pj$epsg)) {
-      sf::st_crs(Vegetation) <-  sf::st_crs(temp_pt)
+
+  if(length(Vegetation) != 1) {
+    if("data.frame" %in% class(Vegetation)) {
+      test_pj <- sf::st_crs(Vegetation)
+      if(is.na(test_pj$epsg)) {
+        sf::st_crs(Vegetation) <-  sf::st_crs(temp_pt)
+      }
+      print(sf::st_crs(Vegetation)$epsg)
     }
-    print(sf::st_crs(Vegetation)$epsg)
   }
+
 
   print("Check projections of all sf objects...")
   print(sf::st_crs(Coastline)$epsg)
@@ -265,8 +271,10 @@ CPBT <- function(
   # Keep these the same
   Longshore = ShorelinePointDist
 
+
   pdg("Get HAZUS data....")
-  #data(HAZUS, envir = environment())
+
+  # data(HAZUS, envir = environment())
   HAZUS <- HAZUS
 
 
@@ -327,7 +335,8 @@ CPBT <- function(
   wave_data <- WaveModel(
     dat = dat_veg,
     total_wsl_adj = total_water_level_erosion,
-    Ho = Ho, To = To
+    Ho = Ho, To = To,
+    mangrove = mangrove
     )
 
   pdg(paste0("Ok transects: ", length(unique(wave_data$line_id))))
@@ -342,18 +351,37 @@ CPBT <- function(
   print(surge_elevation)
   print(total_water_level_erosion)
 
-  erosion <- ErosionTransectsUtil(
-     Ho = Ho, To = To,
-     total_wsl_adj = total_water_level_erosion,
-     linkbeach = linkbeach,
-     wave_data = wave_data,
-     storm_duration = storm_duration,
-     Tr = Tr,
-     Longshore = ShorelinePointDist,
-     PropValue = PropValue,
-     disc = disc,
-     TimeHoriz = TimeHoriz
-     )
+  if(is.null(mangrove)) {
+    erosion <- ErosionTransectsUtil(
+      Ho = Ho, To = To,
+      total_wsl_adj = total_water_level_erosion,
+      linkbeach = linkbeach,
+      wave_data = wave_data,
+      storm_duration = storm_duration,
+      Tr = Tr,
+      Longshore = ShorelinePointDist,
+      PropValue = PropValue,
+      disc = disc,
+      TimeHoriz = TimeHoriz
+    )
+  } else {
+    print("Running ErosionTransectsUtilMangrove...")
+    # linkbeach$m
+    erosion <- ErosionTransectsUtilMangrove(
+      Ho = Ho, To = To,
+      total_wsl_adj = total_water_level_erosion,
+      linkbeach = linkbeach,
+      wave_data = wave_data,
+      storm_duration = storm_duration,
+      Tr = Tr,
+      Longshore = ShorelinePointDist,
+      PropValue = PropValue,
+      disc = disc,
+      TimeHoriz = TimeHoriz
+    )
+  }
+
+
 
 
   pdg("Build export objects....")
@@ -377,7 +405,7 @@ CPBT <- function(
 
 
 
-  # Damage from a single sotrm
+  # Damage from a single storm
     erosion_totals[["s_storm_damage_Veg"]] <- erosion_totals$total_erosion_Veg_m2*PropValue
     erosion_totals[["s_storm_damage_NoVeg"]] <- erosion_totals$total_erosion_NoVeg_m2*PropValue
 

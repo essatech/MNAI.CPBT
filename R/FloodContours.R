@@ -109,7 +109,11 @@ FloodContours <- function(
   countour_static <- raster::rasterToContour(r, maxpixels=5000000, level=lv)
   cs <- sf::st_as_sf(countour_static)
 
-  cs$name <- c("LowTide", "HighTide", "StaticWL")
+  cs$name[which(cs$level == "0")] <- "LowTide"
+  cs$name[which(as.numeric(cs$level) == mean_high_water)] <- "HighTide"
+  cs$name[which(as.numeric(cs$level) == total_wsl_adj)] <- "StaticWL"
+
+
   cs$level <- NULL
 
   #=======================================================
@@ -118,7 +122,7 @@ FloodContours <- function(
 
   erosion <- erosion_points
   epp <- sf::as_Spatial(erosion)
-  #mapview(epp['runup_NoVeg'])
+  # mapview(epp['runup_NoVeg'])
 
 
   suppressWarnings(sp::proj4string(epp) <- sp::proj4string(r))
