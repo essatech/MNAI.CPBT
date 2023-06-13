@@ -125,8 +125,20 @@ ErosionTransectMangrove <- function(wave_transect = wave_transect,
   # correction factor for MWL
   coef0 = max(Etasimple1[2:(length(Etasimple1) - 1)], na.rm = TRUE) / Emax
 
+  # MJB prevent extreme values
+  m_median <- head(sort(Setup, decreasing = TRUE), 5)
+  m_median <- median(m_median, na.rm = TRUE)
+  m_max <- max(Setup, na.rm = TRUE)
+
+  if(m_max > (m_median * 5)) {
+    numerator <- m_median
+  } else {
+    numerator <- m_max
+  }
+
   # corrected MWL at shoreline in presence of habitat
-  Etap = max(Setup, na.rm = TRUE) / coef0
+  Etap = numerator / coef0
+
 
   # MJB Fix in ESRI
   if (is.na(Etap)) {
@@ -155,8 +167,8 @@ ErosionTransectMangrove <- function(wave_transect = wave_transect,
     retreat_Veg = MErodeLen2,
     runup_NoVeg = Rnp1,
     runup_Veg = Rnpveg1,
-    erosion_m3_NoVeg = MErodeLen1,
-    erosion_m3_Veg = MErodeLen2
+    erosion_m3_NoVeg = MErodeVol1,
+    erosion_m3_Veg = MErodeVol2
   )
 
   return(ret_obj)

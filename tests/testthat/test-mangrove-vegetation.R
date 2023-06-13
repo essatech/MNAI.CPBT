@@ -1,4 +1,5 @@
 testthat::test_that("mangrove vegetation", {
+
   # Adjust Inputs
 
   RadLineDist = 1.5
@@ -288,6 +289,8 @@ testthat::test_that("mangrove vegetation", {
   print(MErodeLen1)
   print(MErodeLen2)
 
+  print(MErodeVol1)
+  print(MErodeVol2)
 
 
 

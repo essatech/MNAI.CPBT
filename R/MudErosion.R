@@ -32,7 +32,7 @@ MudErosion <- function(
   kap = 0.4
 
   # current
-  if(max(Uc) != 0) {
+  if(max(Uc, na.rm = TRUE) != 0) {
     us1 = 0.01
     zo1 = 0.01
     dif = 10    # initial value for u* and zo
